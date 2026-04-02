@@ -1,0 +1,20 @@
+table:
+  name: users
+  schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - uuid
+        - name
+        - email
+        - created_at
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - uuid
+        - name
+        - email
+        - created_at
+      filter: {}
