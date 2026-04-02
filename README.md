@@ -32,4 +32,8 @@ You can preview the production build with `npm run preview`.
     ```
     And update now also here in `hasura` folder the `.env` and `config.yaml` files.
 
-* Start backend containers `docker-compose up -d`
+* Start your Colima (`colima start`) or run your Docker Desktop and then start the backend containers: `docker-compose up -d` and you shall see now:
+
+[+] Running 2/2
+✔ Container hasura-postgres-1 Healthy
+✔ Container hasura-graphql-engine-1  Started
