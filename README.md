@@ -22,7 +22,7 @@ You can preview the production build with `npm run preview`.
 
 ## Setting up Backend in Local
 
-* Set up `.env` secrets with command `cp .env.example .env` and then open and edit the `.env`
+* Set up `.env` secrets with command `cp .env.example .env` and then open and edit the `.env` - set strong passwords there and for the `AUTH_SECRET` you need to generate a random 32bit hex eg. like this `openssl rand -hex 32` or [here](https://randomkeygen.com/laravel-key).
 * Now go to `hasura` folder and set up secrets there, too:
 
     ```sh
