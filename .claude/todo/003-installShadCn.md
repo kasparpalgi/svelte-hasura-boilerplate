@@ -1,0 +1,1 @@
+Install ShadCn and main components like button, checkbox, etc.
