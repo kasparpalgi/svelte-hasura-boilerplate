@@ -8,7 +8,7 @@ IMPORTANT: develop in the main branch and do not commit your changes (I'll revie
 
 - **Language**: TypeScript
 - **Package Manager**: npm
-- **Add-ons**: prettier, eslint, vitest, playwright, tailwindcss, sveltekit-adapter, devtools-json, mcp
+- **Add-ons**: prettier, eslint, vitest, playwright, tailwindcss, sveltekit-adapter, devtools-json, mcp, shadcn-svelte, auth.js, zod, sveltekit-i18n, mode-watcher, date-fns, @neodrag/svelte, @neoconfetti/svelte
 
 ---
 
@@ -204,6 +204,33 @@ tests/
 └── unit/
 todo/
 ```
+
+---
+
+## Scripts Reference
+
+| Script | Purpose |
+|--------|---------|
+| `npm run dev` | Runs codegen then starts vite dev server |
+| `npm run generate` | GraphQL codegen — run after editing `documents.ts` |
+| `npm run check` | Type-check (uses extra Node memory via cross-env) |
+| `npm run test:unit` | Vitest — client (browser/Svelte components) |
+| `npm run test:unit:server` | Vitest — server (node/API logic) |
+| `npm run test:unit:all` | All vitest projects |
+| `npm run test:unit:ui` | Vitest with browser UI |
+| `npm run test:e2e` | Playwright headless |
+| `npm run test:e2e:ui` | Playwright UI mode |
+| `npm run test:h` | Playwright headed, single worker (debug) |
+| `npm run b` | Production build + tar for Docker/CapRover deploy |
+| `npm run i-npm` | Update npm to latest version globally |
+| `npm run cu` / `cw` | Clean reinstall (Unix / Windows) |
+
+---
+
+## UX Delight Guidelines
+
+- **Drag & drop** (`@neodrag/svelte`): add drag-and-drop to lists, cards, and reorderable items wherever it makes the UX more intuitive or fun. Even in places where it's not strictly required, consider it for the "coolness" factor.
+- **Confetti** (`@neoconfetti/svelte`): trigger a confetti burst after significant user accomplishments — completing a project, finishing a long task, submitting a form after real effort. Use in `displayMessage` success flows or as standalone celebrations.
 
 ---
 

@@ -5,20 +5,44 @@
 ## Developing
 
 ```sh
-npm run dev
+npm run dev        # runs GraphQL codegen, then starts vite dev server
+npm run generate   # GraphQL codegen only (run after editing documents.ts)
 ```
 
-## Building
-
-To create a production version of your app:
+## Building & Deploying
 
 ```sh
-npm run build
+npm run build      # production vite build
+npm run preview    # preview the production build locally
+npm run b          # build + package into deploy.tar.gz for Docker/CapRover
 ```
 
-You can preview the production build with `npm run preview`.
+## Testing
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```sh
+npm run test                # all unit + e2e tests
+npm run test:unit           # vitest — Svelte component tests (browser/chromium)
+npm run test:unit:server    # vitest — server-side/API tests (node)
+npm run test:unit:ui        # vitest with interactive UI
+npm run test:e2e            # Playwright headless
+npm run test:e2e:ui         # Playwright interactive UI
+npm run test:h              # Playwright headed, single worker (debug mode)
+```
+
+## Type Checking
+
+```sh
+npm run check        # full type-check
+npm run check:watch  # type-check in watch mode
+```
+
+## Maintenance
+
+```sh
+npm run cu     # clean reinstall (Unix)
+npm run cw     # clean reinstall (Windows)
+npm run i-npm  # update npm globally to latest version
+```
 
 ## Setting up Backend in Local
 
