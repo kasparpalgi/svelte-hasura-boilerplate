@@ -1,0 +1,30 @@
+/** @file src/routes/api/auth/token/+server.ts */
+import { AUTH_SECRET } from '$env/static/private';
+import { json } from '@sveltejs/kit';
+import jwt from 'jsonwebtoken';
+import type { RequestHandler } from './$types';
+
+export const GET: RequestHandler = async ({ locals }) => {
+	const session = await locals.auth();
+
+	if (!session?.user?.id) {
+		return json({ error: 'Not authenticated' }, { status: 401 });
+	}
+
+	const token = jwt.sign(
+		{
+			'https://hasura.io/jwt/claims': {
+				'x-hasura-allowed-roles': ['user'],
+				'x-hasura-default-role': 'user',
+				'x-hasura-user-id': session.user.id
+			},
+			sub: session.user.id,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24
+		},
+		AUTH_SECRET,
+		{ algorithm: 'HS256' }
+	);
+
+	return json({ token }, { headers: { 'Cache-Control': 'private, max-age=3300' } });
+};

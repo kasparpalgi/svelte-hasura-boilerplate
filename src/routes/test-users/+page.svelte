@@ -10,7 +10,7 @@
 	<p>No users found.</p>
 {:else}
 	<ul>
-		{#each data.users as user (user.uuid)}
+		{#each data.users as user (user.id)}
 			<li data-testid="user-item">
 				<strong>{user.name}</strong> — {user.email}
 			</li>

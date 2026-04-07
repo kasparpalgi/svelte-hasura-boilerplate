@@ -1,0 +1,27 @@
+table:
+  name: accounts
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: userId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        userId:
+          _eq: X-Hasura-User-Id
+      columns: [id, type, provider, providerAccountId, refresh_token, access_token, expires_at, token_type, scope, id_token, session_state, userId, created_at, updated_at]
+select_permissions:
+  - role: user
+    permission:
+      columns: [id, type, provider, providerAccountId, expires_at, scope, created_at, updated_at, userId]
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id

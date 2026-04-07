@@ -15,16 +15,16 @@ import * as types from './graphql';
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n  query GetUsers {\n    users {\n      uuid\n      name\n      email\n      created_at\n    }\n  }\n": typeof types.GetUsersDocument,
+    "\n  query GetUsers {\n    users {\n      id\n      name\n      email\n      created_at\n    }\n  }\n": typeof types.GetUsersDocument,
 };
 const documents: Documents = {
-    "\n  query GetUsers {\n    users {\n      uuid\n      name\n      email\n      created_at\n    }\n  }\n": types.GetUsersDocument,
+    "\n  query GetUsers {\n    users {\n      id\n      name\n      email\n      created_at\n    }\n  }\n": types.GetUsersDocument,
 };
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetUsers {\n    users {\n      uuid\n      name\n      email\n      created_at\n    }\n  }\n"): typeof import('./graphql').GetUsersDocument;
+export function graphql(source: "\n  query GetUsers {\n    users {\n      id\n      name\n      email\n      created_at\n    }\n  }\n"): typeof import('./graphql').GetUsersDocument;
 
 
 export function graphql(source: string) {

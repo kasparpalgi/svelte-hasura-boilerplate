@@ -24,6 +24,7 @@ vite.config.ts.timestamp-*
 
 # Playwright
 test-results
+playwright/.auth
 
 # Hasura
 hasura/config.yaml

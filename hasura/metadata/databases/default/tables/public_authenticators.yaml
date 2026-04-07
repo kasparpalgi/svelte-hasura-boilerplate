@@ -1,0 +1,20 @@
+table:
+  name: authenticators
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: userId
+select_permissions:
+  - role: user
+    permission:
+      columns: [credentialID, userId, credentialDeviceType, credentialBackedUp, created_at]
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        userId:
+          _eq: X-Hasura-User-Id

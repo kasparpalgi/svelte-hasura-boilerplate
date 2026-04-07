@@ -1,20 +1,46 @@
 table:
   name: users
   schema: public
+array_relationships:
+  - name: accounts
+    using:
+      foreign_key_constraint_on:
+        column: userId
+        table:
+          name: accounts
+          schema: public
+  - name: authenticators
+    using:
+      foreign_key_constraint_on:
+        column: userId
+        table:
+          name: authenticators
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns: [id, name, email, emailVerified, image, created_at, updated_at]
 select_permissions:
   - role: anonymous
     permission:
-      columns:
-        - uuid
-        - name
-        - email
-        - created_at
+      columns: [id, name, image]
       filter: {}
   - role: user
     permission:
-      columns:
-        - uuid
-        - name
-        - email
-        - created_at
+      columns: [id, name, email, emailVerified, image, created_at, updated_at]
       filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns: [name, email, image, updated_at]
+      filter: {}
+      check:
+        id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

@@ -6,7 +6,11 @@
       "Bash(npx playwright:*)",
       "Bash(npx vitest:*)",
       "Read(//d/git/**)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "mcp__svelte__svelte-autofixer",
+      "Bash(cat /Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/hasura/seeds/default/*.sql)",
+      "Bash(node:*)",
+      "Bash(hasura seed:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

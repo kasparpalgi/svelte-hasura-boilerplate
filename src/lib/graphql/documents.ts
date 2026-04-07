@@ -4,7 +4,7 @@ import { graphql } from './generated/gql';
 export const GET_USERS = graphql(`
   query GetUsers {
     users {
-      uuid
+      id
       name
       email
       created_at
