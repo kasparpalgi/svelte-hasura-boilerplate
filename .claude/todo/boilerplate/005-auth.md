@@ -1,0 +1,1 @@
+See my another project ../svelte-todo-kanban/ and how I have set up there authentication with auth.js. Analys how it is done there, think how it could be done more clenly, simply and easily for this template. Plan at this stagein this file how to implement. 

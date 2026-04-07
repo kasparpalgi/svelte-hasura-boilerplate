@@ -70,7 +70,7 @@ npm run i-npm  # update npm globally to latest version
     ```
     And update now also here in `hasura` folder the `.env` and `config.yaml` files.
 
-* Start your Colima (`colima start`) or run your Docker Desktop and then start the backend containers: `docker-compose up -d` and you shall see now:
+* Start your Docker runtime (see [`hasura/README.md`](hasura/README.md) for platform-specific instructions) and then start the backend containers: `docker-compose up -d` and you shall see now:
 
 [+] Running 2/2
 ✔ Container hasura-postgres-1 Healthy
