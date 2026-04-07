@@ -1,1 +1,1 @@
-See `/CLAUDE.md` and see files in  `.claude` folder. Then do the task from `.claude/todo` folder: #
+Run `/prime` to load project context, or ask me what you need.

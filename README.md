@@ -75,3 +75,7 @@ npm run i-npm  # update npm globally to latest version
 [+] Running 2/2
 ✔ Container hasura-postgres-1 Healthy
 ✔ Container hasura-graphql-engine-1  Started
+
+## Handy Shell Aliases
+
+See: [shell-aliases.md](shell-aliases.md)

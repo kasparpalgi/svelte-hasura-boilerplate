@@ -4,11 +4,13 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(npx playwright:*)",
-      "Bash(npx vitest:*)"
+      "Bash(npx vitest:*)",
+      "Read(//d/git/**)"
     ]
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "svelte"
-  ]
+  ],
+  "spinnerTipsEnabled": true
 }
