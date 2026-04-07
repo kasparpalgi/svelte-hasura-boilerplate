@@ -8,45 +8,9 @@ IMPORTANT: develop in the main branch and do not commit your changes (I'll revie
 
 - **Language**: TypeScript
 - **Package Manager**: npm
-- **Add-ons**: prettier, eslint, vitest, playwright, tailwindcss, sveltekit-adapter, devtools-json, mcp
+- **Add-ons**: prettier, eslint, vitest, playwright, tailwindcss, sveltekit-adapter, devtools-json, mcp, shadcn-svelte, auth.js, zod, sveltekit-i18n, mode-watcher, date-fns, @neodrag/svelte, @neoconfetti/svelte
 
 ---
-
-You are able to use the Svelte MCP server, where you have access to comprehensive Svelte 5 and SvelteKit documentation. Here's how to use the available tools effectively:
-
-## Available MCP Tools:
-
-### 1. list-sections
-
-Use this FIRST to discover all available documentation sections. Returns a structured list with titles, use_cases, and paths.
-When asked about Svelte or SvelteKit topics, ALWAYS use this tool at the start of the chat to find relevant sections.
-
-### 2. get-documentation
-
-Retrieves full documentation content for specific sections. Accepts single or multiple sections.
-After calling the list-sections tool, you MUST analyze the returned documentation sections (especially the use_cases field) and then use the get-documentation tool to fetch ALL documentation sections that are relevant for the user's task.
-
-### 3. svelte-autofixer
-
-Analyzes Svelte code and returns issues and suggestions.
-You MUST use this tool whenever writing Svelte code before sending it to the user. Keep calling it until no issues or suggestions are returned.
-
-### 4. playground-link
-
-Generates a Svelte Playground link with the provided code.
-After completing the code, ask the user if they want a playground link. Only call this tool after user confirmation and NEVER if code was written to files in their project.
-
-## MCP Servers (Setup if not done yet)
-
-Run: `claude mcp list` list to see if all below MCP servers are (✓ Connected):
-# - playwright
-# - sequential-thinking
-# - filesystem (optional)
-# - context7 (optional)
-
-- **Playwright**: Browser testing, console logs, UI snapshots
-- **Sequential Thinking**: Complex planning, architecture decisions
-- **Context7**: Hasura etc. documentation
 
 ## Backend Stack
 
@@ -56,7 +20,6 @@ Hasura GraphQL, PostgreSQL, Auth.js
 
 ### 1. Plan
 - Use the task file in `todo/`. Leave the original requirement at top.
-- Use Sequential Thinking MCP for complex features.
 
 ### 2. Implement
 - Follow store factory pattern (see below).
@@ -65,7 +28,7 @@ Hasura GraphQL, PostgreSQL, Auth.js
 - No global formatters (`prettier --write .` is banned).
 
 ### 3. Verify
-- Playwright MCP: test in browser, capture console logs.
+- Test in browser.
 - Hasura Console: verify DB changes.
 
 ### 4. Test (MANDATORY)
@@ -207,6 +170,30 @@ todo/
 
 ---
 
+## Scripts Reference
+
+| Script | Purpose |
+|--------|---------|
+| `npm run dev` | Runs codegen then starts vite dev server |
+| `npm run generate` | GraphQL codegen — run after editing `documents.ts` |
+| `npm run check` | Type-check (uses extra Node memory via cross-env) |
+| `npm run test:unit` | Vitest — client (browser/Svelte components) |
+| `npm run test:unit:server` | Vitest — server (node/API logic) |
+| `npm run test:unit:all` | All vitest projects |
+| `npm run test:e2e` | Playwright headless |
+| `npm run test:e2e:ui` | Playwright UI mode |
+| `npm run b` | Production build + tar for Docker/CapRover deploy |
+| `npm run cu` / `cw` | Clean reinstall (Unix / Windows) |
+
+---
+
+## UX Delight Guidelines
+
+- **Drag & drop** (`@neodrag/svelte`): add drag-and-drop to lists, cards, and reorderable items wherever it makes the UX more intuitive or fun.
+- **Confetti** (`@neoconfetti/svelte`): trigger a confetti burst after significant user accomplishments. Use in `displayMessage` success flows or as standalone celebrations.
+
+---
+
 ## Critical Rules
 
 - `if (!browser) return;` — always check before DOM/localStorage access.
@@ -235,7 +222,7 @@ todo/
 - `file.ts`:
 
 ## Verification
-- [ ] Browser tested (Playwright MCP)
+- [ ] Browser tested
 - [ ] DB verified (Hasura Console)
 - [ ] Tests passing
 - [ ] `npm run check` passed

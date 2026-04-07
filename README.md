@@ -76,6 +76,23 @@ npm run i-npm  # update npm globally to latest version
 ✔ Container hasura-postgres-1 Healthy
 ✔ Container hasura-graphql-engine-1  Started
 
-## Handy Shell Aliases
+## AI Tooling
 
-See: [shell-aliases.md](shell-aliases.md)
+This project is configured for Claude Code (and compatible with other AI agents).
+
+| File | Purpose |
+|------|---------|
+| [`CLAUDE.md`](CLAUDE.md) | Claude Code — stack, patterns, critical rules |
+| [`AGENTS.md`](AGENTS.md) | OpenAI Codex / other agents |
+| [`GEMINI.md`](GEMINI.md) | Gemini CLI |
+| [`shell-aliases.md`](shell-aliases.md) | Shell aliases (`cs`, `cr`) for launching Claude Code with context pre-loaded |
+
+**Slash commands** (inside Claude Code sessions):
+
+| Command | Purpose |
+|---------|---------|
+| `/prime` | Load project context and summarize current state |
+| `/create-plan [request]` | Research codebase and produce a plan in `.claude/todo/` |
+| `/implement [plan-path]` | Execute a plan step-by-step with verification |
+
+See [`shell-aliases.md`](shell-aliases.md) for setup instructions.

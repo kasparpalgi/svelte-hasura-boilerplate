@@ -5,7 +5,8 @@
       "Bash(npm run:*)",
       "Bash(npx playwright:*)",
       "Bash(npx vitest:*)",
-      "Read(//d/git/**)"
+      "Read(//d/git/**)",
+      "Bash(git:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -12,6 +12,25 @@ IMPORTANT: develop in the main branch and do not commit your changes (I'll revie
 
 ---
 
+## Session Workflow
+
+1. **Start**: Run `/prime` to load context and see recent work
+2. **Plan**: Use `/create-plan [request]` before significant features
+3. **Execute**: Use `/implement [plan-path]` to execute plans
+4. **Verify**: Playwright MCP + `npm run check` + `npm test`
+
+## Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/prime` | Initialize session — read context, summarize stack, active tasks, recent commits |
+| `/create-plan [request]` | Research codebase and produce a plan in `.claude/todo/` |
+| `/implement [plan-path]` | Execute a plan step-by-step with verification |
+
+See `shell-aliases.md` for `cs`/`cr` launch aliases that auto-run `/prime`.
+
+---
+
 You are able to use the Svelte MCP server, where you have access to comprehensive Svelte 5 and SvelteKit documentation. Here's how to use the available tools effectively:
 
 ## Available MCP Tools:
