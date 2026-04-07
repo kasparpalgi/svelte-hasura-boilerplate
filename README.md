@@ -2,6 +2,20 @@
 
 [About the project]
 
+## Getting Started
+
+After cloning, run these once to set up your environment:
+
+```sh
+npm i                            # install dependencies
+npx playwright install chromium  # Chromium for Vitest component tests + Playwright E2E
+npm install -g hasura-cli        # Hasura CLI for migrations, metadata, console
+```
+
+Also install a Docker runtime if you don't have one — see [`hasura/README.md`](hasura/README.md) for platform-specific instructions (Colima on Mac, Rancher Desktop on Windows, Docker Engine on Linux).
+
+Start the backend before running `npm run dev` — codegen connects to Hasura at startup.
+
 ## Developing
 
 ```sh
