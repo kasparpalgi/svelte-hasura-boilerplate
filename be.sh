@@ -48,6 +48,19 @@ else
     echo "🐳 Environment is 'development' — running docker-compose up..."
     docker-compose up -d
     echo "✅ Docker containers started."
+
+    echo "⏳ Waiting for Hasura engine to be ready..."
+    for i in $(seq 1 30); do
+      if curl -sf http://localhost:3001/v1/version > /dev/null 2>&1; then
+        echo "✅ Hasura engine is ready."
+        break
+      fi
+      if [ "$i" = "30" ]; then
+        echo "❌ Hasura engine did not respond after 30 seconds. Try running 'hasura console' manually."
+        exit 1
+      fi
+      sleep 1
+    done
   elif [ "$ENV_VALUE" = "production" ]; then
     echo "🚫 Environment is 'production' — skipping docker-compose."
   else
