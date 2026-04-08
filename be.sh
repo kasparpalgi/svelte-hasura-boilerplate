@@ -19,7 +19,7 @@ echo "📁 Changed directory to: $(pwd)"
 echo ""
 echo "🔍 Checking Colima status..."
 
-if colima status 2>/dev/null | grep -q "running"; then
+if colima status 2>&1 | grep -qi "running"; then
   echo "✅ Colima is already running."
 else
   echo "🚀 Starting Colima..."
@@ -32,16 +32,17 @@ fi
 echo ""
 echo "🔍 Checking environment..."
 
-ENV_FILE=".env"
+# Read from root .env (parent of hasura/)
+ENV_FILE="$SCRIPT_DIR/.env"
 
 if [ ! -f "$ENV_FILE" ]; then
-  echo "⚠️  Warning: .env file not found. Skipping docker-compose."
+  echo "⚠️  Warning: root .env file not found at $SCRIPT_DIR/.env. Skipping docker-compose."
 else
-  # Read the 2nd line of .env and extract the value
-  ENV_LINE=$(sed -n '2p' "$ENV_FILE")
+  # Find the PUBLIC_API_ENV line anywhere in the file
+  ENV_LINE=$(grep '^PUBLIC_API_ENV=' "$ENV_FILE" || true)
   ENV_VALUE=$(echo "$ENV_LINE" | grep -o '"[^"]*"' | tr -d '"')
 
-  echo "   .env line 2: $ENV_LINE"
+  echo "   PUBLIC_API_ENV: \"$ENV_VALUE\""
 
   if [ "$ENV_VALUE" = "development" ]; then
     echo "🐳 Environment is 'development' — running docker-compose up..."
