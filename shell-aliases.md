@@ -1,6 +1,6 @@
 # Claude Code Quick-Launch Aliases
 
-Shortcuts to launch Claude Code pre-loaded with workspace context — works on **macOS, Linux, and Windows**.
+Shortcut to launch Claude Code in YOLO mode and start a specific task — eg. run `cy 012` to execute task 012 from `.claude/todo/` — works on **macOS, Linux, and Windows**.
 
 ---
 
@@ -9,8 +9,7 @@ Shortcuts to launch Claude Code pre-loaded with workspace context — works on *
 Add to your `~/.zshrc` or `~/.bashrc`:
 
 ```bash
-alias cs='claude "/prime"'
-alias cr='claude --dangerously-skip-permissions "/prime"'
+cy() { claude --dangerously-skip-permissions "/todo $1"; }
 ```
 
 Reload your shell:
@@ -28,8 +27,7 @@ source ~/.zshrc   # or ~/.bashrc
 Add to your PowerShell profile (`$PROFILE`):
 
 ```powershell
-function cs { claude "/prime" @args }
-function cr { claude --dangerously-skip-permissions "/prime" @args }
+function cy { claude --dangerously-skip-permissions "/todo $args" }
 ```
 
 Reload your profile:
@@ -42,64 +40,28 @@ Reload your profile:
 
 ### Option B — Command Prompt (`cmd`)
 
-Add to a `aliases.cmd` file and call it from `autorun` (via registry), or just run it manually at the start of each session:
+Add to a `aliases.cmd` file and call it from `autorun` (via registry), or run it manually at the start of each session:
 
 ```bat
-doskey cs=claude "/prime" $*
-doskey cr=claude --dangerously-skip-permissions "/prime" $*
+doskey cy=claude --dangerously-skip-permissions "/todo $1"
 ```
 
 ---
 
-## The Aliases
+## The `cy` Alias
 
-### `cs` — Claude Safe
+Starts Claude Code in YOLO mode and immediately runs `/todo <number>`, loading and executing the matching task file from `.claude/todo/`.
 
-```bash
-alias cs='claude "/prime"'
-```
-
-Starts Claude Code and immediately runs `/prime` to load workspace context. Claude will ask for your approval before running commands, reading files, or making changes.
-
-**Use when:** The task is unfamiliar, touches sensitive files, or you want visibility into what Claude is doing.
-
----
-
-### `cr` — Claude Run
-
-```bash
-alias cr='claude --dangerously-skip-permissions "/prime"'
-```
-
-Starts Claude Code with permission prompts disabled, then runs `/prime`. Claude operates autonomously — no approval dialogs.
-
-**Use when:** The task is routine, well-understood, and you want fast iteration without interruptions.
+**Usage:** `cy 020`
 
 > ⚠️ `--dangerously-skip-permissions` means Claude can read, write, and execute without asking. Use only when you trust the task scope.
 
 ---
 
-## Why `/prime` in Both?
-
-`/prime` loads your workspace context — goals, conventions, project structure — so Claude starts oriented rather than cold. Without it, you'd be re-explaining your setup every session.
-
----
-
 ## Available Slash Commands
-
-Once in a session, these commands are available:
 
 | Command | Purpose |
 |---------|---------|
-| `/prime` | Load project context and summarize current state |
+| `/todo [number]` | Open and execute a task from `.claude/todo/` by number |
 | `/create-plan [request]` | Plan a feature before implementing (saves to `.claude/todo/`) |
 | `/implement [plan-path]` | Execute a plan from `.claude/todo/` |
-
----
-
-## Quick Reference
-
-| Alias | Permissions | Best for |
-|-------|-------------|----------|
-| `cs`  | Interactive (asks) | Unfamiliar tasks, sensitive work, learning |
-| `cr`  | Autonomous (skips) | Trusted tasks, fast iteration, routine work |
