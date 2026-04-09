@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { signIn } from '@auth/sveltekit/client';
+	import { Fingerprint } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
 	import { startAuthentication } from '@simplewebauthn/browser';
 	import { PUBLIC_HAS_GOOGLE_AUTH, PUBLIC_HAS_EMAIL_AUTH } from '$env/static/public';
@@ -107,11 +108,9 @@
 		type="button"
 		onclick={handlePasskey}
 		disabled={loading}
-		class="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
+		class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
 	>
-		<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" />
-		</svg>
+		<Fingerprint class="h-4 w-4" />
 		Sign in with passkey
 	</button>
 
@@ -127,7 +126,7 @@
 			type="button"
 			onclick={handleGoogle}
 			disabled={loading}
-			class="flex w-full items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
+			class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
 		>
 			<svg class="h-4 w-4" viewBox="0 0 24 24">
 				<path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -155,33 +154,33 @@
 			<div>
 				<label for="name" class="block text-sm font-medium text-gray-700">Name</label>
 				<input id="name" type="text" bind:value={name} required
-					class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+					class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
 			</div>
 		{/if}
 
 		<div>
 			<label for="email" class="block text-sm font-medium text-gray-700">Email</label>
 			<input id="email" type="email" bind:value={email} required autocomplete="email"
-				class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+				class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
 		</div>
 
 		<div>
 			<label for="password" class="block text-sm font-medium text-gray-700">Password</label>
 			<input id="password" type="password" bind:value={password} required autocomplete={mode === 'login' ? 'current-password' : 'new-password'}
-				class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+				class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
 		</div>
 
 		{#if mode === 'signup'}
 			<div>
 				<label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm password</label>
 				<input id="confirmPassword" type="password" bind:value={confirmPassword} required autocomplete="new-password"
-					class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+					class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
 			</div>
 			<p class="text-xs text-gray-500">Min 8 characters, one uppercase, one lowercase, one number.</p>
 		{/if}
 
 		<button type="submit" disabled={loading}
-			class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+			class="w-full cursor-pointer rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50">
 			{loading ? 'Please wait…' : mode === 'login' ? 'Sign in' : 'Create account'}
 		</button>
 	</form>
@@ -190,7 +189,7 @@
 		{mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
 		<button type="button"
 			onclick={() => { mode = mode === 'login' ? 'signup' : 'login'; error = ''; }}
-			class="font-medium text-blue-600 hover:underline">
+			class="cursor-pointer font-medium text-brand-600 hover:underline">
 			{mode === 'login' ? 'Sign up' : 'Sign in'}
 		</button>
 	</p>
@@ -204,9 +203,9 @@
 		</div>
 		<form onsubmit={handleMagicLink} class="space-y-3">
 			<input type="email" bind:value={email} placeholder="your@email.com" required
-				class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+				class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
 			<button type="submit" disabled={loading}
-				class="w-full rounded-md border border-blue-600 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 disabled:opacity-50">
+				class="w-full cursor-pointer rounded-md border border-brand-600 px-4 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50 disabled:opacity-50">
 				Send magic link
 			</button>
 		</form>

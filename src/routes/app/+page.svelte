@@ -41,7 +41,7 @@
 					{href}
 					target={external ? '_blank' : undefined}
 					rel={external ? 'noopener noreferrer' : undefined}
-					class="group flex items-start gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-popover"
+					class="group flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-popover"
 				>
 					<div class="mt-0.5 rounded-lg bg-brand-50 p-2 text-brand-600 group-hover:bg-brand-100 transition-colors">
 						<Icon class="h-4 w-4" />

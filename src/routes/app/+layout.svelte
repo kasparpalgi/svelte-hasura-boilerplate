@@ -21,7 +21,7 @@
 <div class="min-h-screen bg-gray-50">
 	<header class="border-b border-gray-200 bg-white shadow-sm">
 		<div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-			<a href="/app" class="flex items-center gap-2 font-semibold text-gray-900 hover:text-brand-600 transition-colors">
+			<a href="/app" class="flex cursor-pointer items-center gap-2 font-semibold text-gray-900 hover:text-brand-600 transition-colors">
 				<Layers class="h-5 w-5 text-brand-600" />
 				My App
 			</a>
@@ -39,7 +39,7 @@
 						onclick={() => (menuOpen = !menuOpen)}
 						aria-expanded={menuOpen}
 						aria-haspopup="menu"
-						class="flex items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50 hover:border-brand-300 hover:text-brand-600"
+						class="flex cursor-pointer items-center gap-1 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-50 hover:border-brand-300 hover:text-brand-600"
 					>
 						<Settings class="h-3.5 w-3.5" />
 						<ChevronDown class="h-3 w-3 transition-transform duration-150 {menuOpen ? 'rotate-180' : ''}" />
@@ -54,7 +54,7 @@
 								href="/app/settings"
 								role="menuitem"
 								onclick={() => (menuOpen = false)}
-								class="flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors"
+								class="flex cursor-pointer items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors"
 							>
 								<Settings class="h-4 w-4 text-gray-400" />
 								Settings
@@ -64,7 +64,7 @@
 								type="button"
 								role="menuitem"
 								onclick={() => { menuOpen = false; signOut({ redirectTo: '/signin' }); }}
-								class="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+								class="flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
 							>
 								<LogOut class="h-4 w-4 text-gray-400" />
 								Sign out

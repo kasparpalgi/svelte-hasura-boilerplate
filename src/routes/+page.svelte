@@ -45,15 +45,15 @@
 				{#if data.session}
 					<a
 						href="/app"
-						class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-brand-700 btn-glow"
+						class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-brand-700 btn-glow"
 					>
 						Go to app <ArrowRight class="h-3.5 w-3.5" />
 					</a>
 				{:else}
-					<a href="/signin" class="text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</a>
+					<a href="/signin" class="cursor-pointer text-sm font-medium text-gray-600 hover:text-gray-900">Sign in</a>
 					<a
 						href="/signin"
-						class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-brand-700 btn-glow"
+						class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-brand-700 btn-glow"
 					>
 						Get started <ArrowRight class="h-3.5 w-3.5" />
 					</a>
@@ -83,13 +83,13 @@
 		<div class="relative mt-10 flex flex-wrap items-center justify-center gap-4">
 			<a
 				href="/signin"
-				class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 text-base font-semibold text-white shadow-md transition hover:bg-brand-700 active:scale-[0.98] btn-glow"
+				class="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 text-base font-semibold text-white shadow-md transition hover:bg-brand-700 active:scale-[0.98] btn-glow"
 			>
 				Create free account <ArrowRight class="h-4 w-4" />
 			</a>
 			<a
 				href="/app"
-				class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-7 py-3.5 text-base font-semibold text-gray-700 transition hover:bg-gray-50"
+				class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-gray-300 px-7 py-3.5 text-base font-semibold text-gray-700 transition hover:bg-gray-50"
 			>
 				Sign in
 			</a>

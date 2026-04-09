@@ -330,6 +330,8 @@ Icon sizes: `h-3.5 w-3.5` (tiny), `h-4 w-4` (default), `h-5 w-5` (large).
 - Never store sensitive data in localStorage.
 - All GraphQL in `documents.ts`; run `npm run generate` after changes.
 - Factory pattern for all stores; single `$state` object; expose via getters.
+- All clickable elements (`<button>`, `<a>`, `onclick`, `role="button"`) **must** include `cursor-pointer` Tailwind class.
+- Always use **Lucide** icons (`@lucide/svelte`) — never inline SVGs (exception: third-party brand logos like Google OAuth that require specific brand colors).
 
 ---
 

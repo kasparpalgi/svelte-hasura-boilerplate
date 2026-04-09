@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import { Loader2 } from '@lucide/svelte';
 
 	interface Props extends HTMLButtonAttributes {
 		variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive';
@@ -48,10 +49,7 @@
 	{...rest}
 >
 	{#if loading}
-		<svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-			<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-			<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-		</svg>
+		<Loader2 class="h-4 w-4 animate-spin" />
 	{/if}
 	{@render children()}
 </button>

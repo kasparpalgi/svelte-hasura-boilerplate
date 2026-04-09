@@ -139,7 +139,7 @@
 					<button
 						type="button"
 						onclick={() => (emailFormOpen = !emailFormOpen)}
-						class="flex shrink-0 items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700 transition-colors"
+						class="flex shrink-0 cursor-pointer items-center gap-1 text-xs font-medium text-brand-600 hover:text-brand-700 transition-colors"
 					>
 						Change
 						<ChevronDown class="h-3 w-3 transition-transform duration-200 {emailFormOpen ? 'rotate-180' : ''}" />
@@ -181,7 +181,7 @@
 							<button
 								type="button"
 								onclick={() => (emailFormOpen = false)}
-								class="text-xs text-gray-400 hover:text-gray-600"
+								class="cursor-pointer text-xs text-gray-400 hover:text-gray-600"
 							>
 								Cancel
 							</button>
@@ -328,7 +328,7 @@
 									type="submit"
 									title="Remove passkey"
 									disabled={deletingId === pk.credentialID}
-									class="rounded-md p-1.5 text-gray-400 transition hover:bg-red-50 hover:text-red-500 disabled:opacity-40"
+									class="cursor-pointer rounded-md p-1.5 text-gray-400 transition hover:bg-red-50 hover:text-red-500 disabled:opacity-40"
 								>
 									<Trash2 class="h-3.5 w-3.5" />
 								</button>
