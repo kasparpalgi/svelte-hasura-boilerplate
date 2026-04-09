@@ -48,3 +48,9 @@ Settings page live at `/app/settings` with:
 - Email change with confirmation email
 - Password change with current-password verification
 - Passkeys list + add passkey (redirects back to settings after registration)
+
+------
+
+MANUAL TEST RESULTS:
+
+1. Email change works. Send email and after clicking confirm, I get success and in DB email changed but in the settings page in the UI I will see old email even after refreshing the page. After sign out and sign in again, I will see new email address. Shall the confirmation to change email address go to the old email or both or new? At the moment goes to the new but not sure what's the best practice?

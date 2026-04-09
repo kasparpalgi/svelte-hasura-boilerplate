@@ -712,3 +712,32 @@ Implemented 2026-04-07. All code written, `npm run check` passes (0 errors).
 - Email/password signup and login flow.
 - Confirm `/api/auth/token` returns JWT.
 - Run `npm run test:e2e`.
+
+---
+
+MANUAL TESTING:
+
+1. Passkey login works on Mac
+2. Email/password login with wrong user/pass gives no error in front-end but in console:
+
+WebSocket connection to 'ws://localhost:5173/?token=IzLr9UIH2edQ' failed: WebSocket is closed due to suspension.
+
+In terminal:
+[auth][error] CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
+    at Module.callback (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@auth/core/lib/actions/callback/index.js:236:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async AuthInternal (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@auth/core/lib/index.js:56:24)
+    at async Auth (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@auth/core/index.js:111:34)
+    at async fn (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/exports/hooks/sequence.js:102:13)
+    at async fn (/Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/runtime/server/respond.js:335:16)
+    at async internal_respond (/Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/runtime/server/respond.js:316:22)
+    at async file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/exports/vite/dev/index.js:545:22
+
+With correct user/pass I get in but in console not sure before or after arriving at /app:
+
+WebSocket connection to 'ws://localhost:5173/?token=IrHyxFfCUwIT' failed: WebSocket is closed due to suspension.
+
+Also, when I logout: WebSocket connection to 'ws://localhost:5173/?token=IrHyxFfCUwIT' failed: WebSocket is closed due to suspension.
+
+3. When I click signup, I don't want to see the "Sign in with passkey" option not magic link option.
+
