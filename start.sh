@@ -73,8 +73,18 @@ else
   fi
 fi
 
-# ── Hasura Console ────────────────────────────────────────────────────────────
+# ── Hasura Console & NPM Run Dev ──────────────────────────────────────────────
 
 echo ""
-echo "🖥️  Starting Hasura Console..."
-hasura console
+echo "🖥️  Starting Hasura Console in the background..."
+hasura console &
+HASURA_PID=$! # Capture the process ID of Hasura
+
+# Go back to the root directory where package.json is located
+cd "$SCRIPT_DIR"
+
+# Create a cleanup trap: when this script exits (via Ctrl+C), kill Hasura too
+trap "echo -e '\n🛑 Stopping Hasura Console...'; kill $HASURA_PID; exit" INT TERM EXIT
+
+echo "🚀 Starting frontend (npm run dev)..."
+npm run dev
