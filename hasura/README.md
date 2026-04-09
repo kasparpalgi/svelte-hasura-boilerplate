@@ -1,5 +1,9 @@
 # Hasura Backend
 
+## Quick start back-end once all setup
+
+`sh .db.sh`
+
 ## Prerequisites — Docker
 
 A Docker runtime must be running before starting the backend.
@@ -36,7 +40,7 @@ cp config.example.yaml config.yaml  # then edit config.yaml with your admin secr
 ```sh
 docker-compose up -d        # start Postgres + Hasura in background
 docker-compose down         # stop containers (data persisted in volume)
-docker-compose down -v      # stop and wipe all data
+docker-compose down -v      # stop and wipe all data (database tables, relations and test data in the DB or whatever you have added there)
 ```
 
 Hasura GraphQL engine will be available at `http://localhost:3001/v1/graphql`.
@@ -47,7 +51,8 @@ Hasura GraphQL engine will be available at `http://localhost:3001/v1/graphql`.
 
 ```sh
 cd hasura
-hasura console              # opens console at http://localhost:9695
-hasura metadata apply       # apply tracked tables, relationships, permissions
 hasura migrate apply --all-databases  # run pending migrations
+hasura metadata apply       # apply tracked tables, relationships, permissions
+hasura seed apply --all-databases   # adds test user for automated tests
+hasura console              # opens console at http://localhost:9695
 ```

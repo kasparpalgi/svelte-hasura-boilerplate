@@ -246,6 +246,79 @@ todo/
 
 ---
 
+## Design System
+
+**IMPORTANT**: Every UI you build must follow this design system. Consistency is non-negotiable — same colors, same spacing, same component patterns everywhere.
+
+### Colors
+
+The brand color is **indigo**. Always use `brand-*` tokens, never raw `blue-*`.
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `brand-50` | `#eef2ff` | Tinted backgrounds, badge fills |
+| `brand-100` | `#e0e7ff` | Icon backgrounds, hover states |
+| `brand-500` | `#6366f1` | Focus rings |
+| `brand-600` | `#4f46e5` | Primary buttons, links, accents |
+| `brand-700` | `#4338ca` | Button hover states |
+
+Use `gray-*` for text and borders. Use `red-*` for errors, `green-*` for success, `amber-*` for warnings.
+
+### Typography
+
+- Display headings: `font-black` or `font-bold`, tight tracking (`tracking-tight`)
+- Gradient headline: `class="text-gradient"` (indigo → violet)
+- Body: `text-gray-500` for secondary, `text-gray-900` for primary
+- Labels/caps: `text-xs font-semibold uppercase tracking-widest text-brand-600`
+
+### Components
+
+Import from `$lib/components/ui/`:
+
+```svelte
+import Button from '$lib/components/ui/Button.svelte';
+import Badge from '$lib/components/ui/Badge.svelte';
+import Card from '$lib/components/ui/Card.svelte';
+```
+
+**Button** — `variant`: `primary | secondary | ghost | outline | destructive` · `size`: `sm | md | lg` · `loading` prop for async states
+
+**Badge** — `variant`: `default | success | warning | destructive | outline`
+
+**Card** — `hover` prop adds lift-on-hover animation
+
+### Icons
+
+Always use **Lucide** (`@lucide/svelte`). Never use inline SVGs or emoji for UI icons.
+
+```svelte
+import { Zap, ShieldCheck, ArrowRight } from '@lucide/svelte';
+<Zap class="h-4 w-4" />
+```
+
+Icon sizes: `h-3.5 w-3.5` (tiny), `h-4 w-4` (default), `h-5 w-5` (large).
+
+### Layout patterns
+
+- Max content width: `max-w-5xl mx-auto px-4` or `px-6`
+- Card: `rounded-xl border border-gray-200 bg-white shadow-card`
+- Card hover: add `transition-all duration-200 hover:-translate-y-1 hover:shadow-popover`
+- Section heading: small caps label above + larger bold title below
+- Hero gradient orbs: `absolute h-[600px] w-[600px] rounded-full bg-brand-100/60 blur-3xl`
+- Sticky nav: `sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-100`
+
+### Custom CSS utilities (defined in `layout.css`)
+
+| Class | Effect |
+|-------|--------|
+| `text-gradient` | Indigo → violet gradient text |
+| `btn-glow` | Brand glow ring on hover |
+| `section-fade` | Subtle gray → white gradient background |
+| `shadow-card` | Subtle card shadow |
+| `shadow-popover` | Elevated shadow for hover/float states |
+
+---
+
 ## UX Delight Guidelines
 
 - **Drag & drop** (`@neodrag/svelte`): add drag-and-drop to lists, cards, and reorderable items wherever it makes the UX more intuitive or fun. Even in places where it's not strictly required, consider it for the "coolness" factor.

@@ -19,10 +19,15 @@ echo "📁 Changed directory to: $(pwd)"
 echo ""
 echo "🔍 Checking Colima status..."
 
-if colima status 2>&1 | grep -qi "running"; then
+COLIMA_STATUS=$(colima status 2>&1)
+if echo "$COLIMA_STATUS" | grep -qi "stopped\|not running\|does not exist"; then
+  echo "🚀 Starting Colima..."
+  colima start
+  echo "✅ Colima started."
+elif echo "$COLIMA_STATUS" | grep -qi "running"; then
   echo "✅ Colima is already running."
 else
-  echo "🚀 Starting Colima..."
+  echo "🚀 Colima status unclear, attempting to start..."
   colima start
   echo "✅ Colima started."
 fi

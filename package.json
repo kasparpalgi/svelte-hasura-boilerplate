@@ -86,6 +86,7 @@
 		"@simplewebauthn/server": "^9.0.3",
 		"@sveltejs/adapter-node": "^5.4.0",
 		"@sveltekit-i18n/parser-default": "^1.1.1",
+		"@types/nodemailer": "^8.0.0",
 		"bcryptjs": "^3.0.3",
 		"date-fns": "^4.1.0",
 		"dotenv": "^17.4.0",
@@ -93,6 +94,7 @@
 		"graphql-request": "^7.4.0",
 		"jsonwebtoken": "^9.0.3",
 		"mode-watcher": "^1.1.0",
+		"nodemailer": "^7.0.13",
 		"sveltekit-i18n": "^2.4.2",
 		"zod": "^4.1.11"
 	}

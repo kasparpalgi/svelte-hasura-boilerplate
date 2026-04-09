@@ -64,6 +64,7 @@ npm run i-npm  # update npm globally to latest version
 * Now go to `hasura` folder and set up secrets there, too:
 
     ```sh
+    chmod +x be.sh
     cd hasura
     cp .env.example .env
     cp config.example.yaml config.yaml
