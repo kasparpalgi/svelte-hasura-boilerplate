@@ -277,6 +277,7 @@ Import from `$lib/components/ui/`:
 import Button from '$lib/components/ui/Button.svelte';
 import Badge from '$lib/components/ui/Badge.svelte';
 import Card from '$lib/components/ui/Card.svelte';
+import Input from '$lib/components/ui/Input.svelte';
 ```
 
 **Button** — `variant`: `primary | secondary | ghost | outline | destructive` · `size`: `sm | md | lg` · `loading` prop for async states
@@ -284,6 +285,11 @@ import Card from '$lib/components/ui/Card.svelte';
 **Badge** — `variant`: `default | success | warning | destructive | outline`
 
 **Card** — `hover` prop adds lift-on-hover animation
+
+**Input** — wraps `<input>` with label, error, and hint. Supports `bind:value`. All native `HTMLInputAttributes` forwarded via rest props.
+```svelte
+<Input id="email" label="Email" type="email" bind:value={email} error={errors.email} hint="We'll never share it." />
+```
 
 ### Icons
 
@@ -320,7 +326,8 @@ Icon sizes: `h-3.5 w-3.5` (tiny), `h-4 w-4` (default), `h-5 w-5` (large).
 ## UX Delight Guidelines
 
 - **Drag & drop** (`@neodrag/svelte`): add drag-and-drop to lists, cards, and reorderable items wherever it makes the UX more intuitive or fun. Even in places where it's not strictly required, consider it for the "coolness" factor.
-- **Confetti** (`@neoconfetti/svelte`): trigger a confetti burst after significant user accomplishments — completing a project, finishing a long task, submitting a form after real effort. Use in `displayMessage` success flows or as standalone celebrations.
+- **Confetti** (`@neoconfetti/svelte`): trigger a confetti burst after significant user accomplishments — completing a project, finishing a long task, first signup landing on dashboard. Use the `confetti` Svelte **action** (not a component): `<div use:confetti={{ particleCount: 250, duration: 3500 }} class="fixed left-1/2 top-0 -translate-x-1/2 pointer-events-none z-50">`. Conditionally render with `{#if showConfetti}`. Set a localStorage flag before navigating and check it in `onMount` (never `$effect`) to trigger the burst.
+- **Entrance animations** (`tw-animate-css`): already imported. Use `animate-in fade-in slide-in-from-bottom-2 duration-300` on cards/sections as they appear. Use `delay-75`, `delay-150` etc. to stagger sibling elements.
 
 ---
 
