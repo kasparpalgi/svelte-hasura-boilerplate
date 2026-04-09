@@ -86,9 +86,20 @@ cd "$SCRIPT_DIR"
 # Create a cleanup trap: when this script exits (via Ctrl+C), kill Hasura too
 trap "echo -e '\n🛑 Stopping Hasura Console...'; kill $HASURA_PID; exit" INT TERM EXIT
 
-echo "🌐 Opening browser in 5 seconds..."
-# Run sleep and open in the background so it doesn't block npm run dev
+echo "🌐 Opening browser in 3 seconds..."
+
+# --- OS Specific Browser Launch ---
+
+# macOS (Default)
 (sleep 5 && open http://localhost:5173) &
+
+# Linux (Uncomment below and comment macOS above)
+# (sleep 5 && xdg-open http://localhost:5173) &
+
+# Windows / Git Bash (Uncomment below and comment macOS above)
+# (sleep 5 && start http://localhost:5173) &
+
+# ----------------------------------
 
 echo "🚀 Starting frontend (npm run dev)..."
 npm run dev

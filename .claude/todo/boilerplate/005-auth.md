@@ -693,6 +693,7 @@ Create `tests/e2e/auth.spec.ts`:
 - [ ] Delete `src/routes/test-users/` — was for testing DB connection; auth flow now covers this
 - [ ] Delete corresponding e2e test `tests/e2e/test-users.e2e.ts`
 - [ ] Update seed `hasura/seeds/default/1_test_users.sql` — keep the test user for dev, document the password (`Password123`) in a comment
+- [ ] Make it impossible for the test user to log in production (see .env)
 
 ---
 
@@ -715,29 +716,12 @@ Implemented 2026-04-07. All code written, `npm run check` passes (0 errors).
 
 ---
 
-MANUAL TESTING:
+MANUAL TESTING (2026-04-07 issues — fixed 2026-04-09):
 
-1. Passkey login works on Mac
-2. Email/password login with wrong user/pass gives no error in front-end but in console:
-
-WebSocket connection to 'ws://localhost:5173/?token=IzLr9UIH2edQ' failed: WebSocket is closed due to suspension.
-
-In terminal:
-[auth][error] CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
-    at Module.callback (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@auth/core/lib/actions/callback/index.js:236:23)
-    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at async AuthInternal (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@auth/core/lib/index.js:56:24)
-    at async Auth (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@auth/core/index.js:111:34)
-    at async fn (file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/exports/hooks/sequence.js:102:13)
-    at async fn (/Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/runtime/server/respond.js:335:16)
-    at async internal_respond (/Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/runtime/server/respond.js:316:22)
-    at async file:///Users/klarity/Documents/GitHub/svelte-hasura-boilerplate/node_modules/@sveltejs/kit/src/exports/vite/dev/index.js:545:22
-
-With correct user/pass I get in but in console not sure before or after arriving at /app:
-
-WebSocket connection to 'ws://localhost:5173/?token=IrHyxFfCUwIT' failed: WebSocket is closed due to suspension.
-
-Also, when I logout: WebSocket connection to 'ws://localhost:5173/?token=IrHyxFfCUwIT' failed: WebSocket is closed due to suspension.
-
-3. When I click signup, I don't want to see the "Sign in with passkey" option not magic link option.
+1. Passkey login works on Mac ✅
+2. Wrong credentials now show inline error message ✅
+   - Fixed by switching to `signIn('credentials', { redirect: false })` and checking `result?.error`.
+   - The WebSocket "closed due to suspension" messages in the console are a macOS sleep/suspend artifact, not an auth bug.
+3. Signup mode no longer shows passkey button, "or" divider, or magic link section ✅
+   - All wrapped in `{#if mode === 'login'}` blocks.
 

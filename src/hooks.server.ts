@@ -72,6 +72,9 @@ const providers: Provider[] = [
 			const loginParsed = loginSchema.safeParse({ email, password });
 			if (!loginParsed.success) return null;
 
+			// Block the dev seed account from logging in on production
+			if (PUBLIC_API_ENV === 'production' && email === 'test@example.com') return null;
+
 			const found = await serverRequest<{
 				users: {
 					id: string;

@@ -26,12 +26,11 @@ source ~/.zshrc   # or ~/.bashrc
 
 ## Windows Setup
 
-### Option A — PowerShell (recommended)
-
 Add to your PowerShell profile (`$PROFILE`):
 
 ```powershell
 function cy { claude --dangerously-skip-permissions "/todo $args" }
+function st { sh ./start.sh }
 ```
 
 Reload your profile:
@@ -48,6 +47,7 @@ Add to a `aliases.cmd` file and call it from `autorun` (via registry), or run it
 
 ```bat
 doskey cy=claude --dangerously-skip-permissions "/todo $1"
+doskey st=sh ./start.sh
 ```
 
 ---

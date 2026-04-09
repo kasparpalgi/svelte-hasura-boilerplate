@@ -1,3 +1,6 @@
+-- Test user for local development only. DO NOT apply this seed in production.
+-- Email: test@example.com
+-- Password: Password123  (bcrypt hash below)
 INSERT INTO "public"."users" ("id", "name", "email", "password", "created_at", "updated_at")
 VALUES (
   'a1b2c3d4-e5f6-7890-abcd-ef1234567890',

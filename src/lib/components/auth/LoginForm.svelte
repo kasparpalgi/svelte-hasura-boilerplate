@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { signIn } from '@auth/sveltekit/client';
+	import { goto } from '$app/navigation';
 	import { startAuthentication } from '@simplewebauthn/browser';
 	import { PUBLIC_HAS_GOOGLE_AUTH, PUBLIC_HAS_EMAIL_AUTH } from '$env/static/public';
 
@@ -57,7 +58,12 @@
 		}
 		loading = true;
 		try {
-			await signIn('credentials', { email, password, mode, name, redirectTo: '/app' });
+			const result = await signIn('credentials', { email, password, mode, name, redirect: false });
+			if (result?.error) {
+				error = mode === 'login' ? 'Invalid email or password.' : 'Could not create account. Email may already be in use.';
+			} else {
+				await goto('/app');
+			}
 		} catch {
 			error = 'Something went wrong. Please try again.';
 		} finally {
@@ -95,6 +101,7 @@
 		<p class="rounded-md bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>
 	{/if}
 
+	{#if mode === 'login'}
 	<!-- Passkey: sign in with biometrics if already registered on this device -->
 	<button
 		type="button"
@@ -124,13 +131,16 @@
 			Continue with Google
 		</button>
 	{/if}
+	{/if}
 
+	{#if mode === 'login'}
 	<div class="relative">
 		<div class="absolute inset-0 flex items-center"><span class="w-full border-t border-gray-200"></span></div>
 		<div class="relative flex justify-center text-xs uppercase">
 			<span class="bg-white px-2 text-gray-400">or</span>
 		</div>
 	</div>
+	{/if}
 
 	<!-- Email + Password -->
 	<form onsubmit={handleCredentials} class="space-y-3">
@@ -185,7 +195,7 @@
 		</p>
 	{/if}
 
-	{#if PUBLIC_HAS_EMAIL_AUTH === 'true'}
+	{#if mode === 'login' && PUBLIC_HAS_EMAIL_AUTH === 'true'}
 		<div class="relative">
 			<div class="absolute inset-0 flex items-center"><span class="w-full border-t border-gray-200"></span></div>
 			<div class="relative flex justify-center text-xs uppercase">
