@@ -115,6 +115,13 @@
 		Sign in with passkey
 	</button>
 
+	{#if mode === 'login'}
+		<p class="text-center text-xs text-gray-400">
+			Passkey not working? You need to <span class="font-medium">sign in with email/password first</span>,
+			then add a passkey from the app.
+		</p>
+	{/if}
+
 	{#if PUBLIC_HAS_GOOGLE_AUTH === 'true'}
 		<button
 			type="button"
@@ -187,13 +194,6 @@
 			{mode === 'login' ? 'Sign up' : 'Sign in'}
 		</button>
 	</p>
-
-	{#if mode === 'login'}
-		<p class="text-center text-xs text-gray-400">
-			Passkey not working? You need to <span class="font-medium">sign in with email/password first</span>,
-			then add a passkey from the app.
-		</p>
-	{/if}
 
 	{#if mode === 'login' && PUBLIC_HAS_EMAIL_AUTH === 'true'}
 		<div class="relative">
