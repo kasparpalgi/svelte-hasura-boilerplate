@@ -99,7 +99,5 @@ echo "🌐 Opening browser in 3 seconds..."
 # Windows / Git Bash (Uncomment below and comment macOS above)
 # (sleep 5 && start http://localhost:5173) &
 
-# ----------------------------------
-
 echo "🚀 Starting frontend (npm run dev)..."
 npm run dev
