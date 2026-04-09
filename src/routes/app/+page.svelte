@@ -39,7 +39,7 @@
 
 <div class="space-y-8">
 	<!-- Welcome -->
-	<Card class="overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-300">
+	<Card class="overflow-hidden animate-in fade-in slide-in-from-bottom-4 fill-mode-backwards duration-500">
 		<div class="relative p-6">
 			<div
 				class="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-brand-50/80 to-violet-50/40"
@@ -66,7 +66,7 @@
 	</Card>
 
 	<!-- Quick links -->
-	<div class="animate-in fade-in slide-in-from-bottom-2 duration-300 delay-75">
+	<div class="animate-in fade-in slide-in-from-bottom-4 fill-mode-backwards duration-500 delay-150">
 		<h2 class="mb-3 text-sm font-semibold uppercase tracking-widest text-gray-400">Quick links</h2>
 		<div class="grid gap-3 sm:grid-cols-3">
 			{#each quickLinks as { icon: Icon, label, href, desc, external } (label)}

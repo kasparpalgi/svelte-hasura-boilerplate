@@ -73,7 +73,7 @@
 					{#if menuOpen}
 						<div
 							role="menu"
-							class="animate-in fade-in slide-in-from-top-1 duration-150 absolute right-0 top-full z-20 mt-1.5 w-44 rounded-xl border border-gray-200 bg-white py-1 shadow-popover"
+							class="animate-in fade-in zoom-in-95 slide-in-from-top-2 fill-mode-backwards duration-150 absolute right-0 top-full z-20 mt-1.5 w-44 rounded-xl border border-gray-200 bg-white py-1 shadow-popover"
 						>
 							<a
 								href="/app/settings"

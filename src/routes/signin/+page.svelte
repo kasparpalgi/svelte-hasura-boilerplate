@@ -15,7 +15,7 @@
 
 	<!-- Form card -->
 	<div
-		class="animate-in fade-in slide-in-from-bottom-4 duration-300 relative w-full max-w-sm rounded-2xl border border-gray-200 bg-white/90 p-8 shadow-popover backdrop-blur-sm"
+		class="animate-in fade-in slide-in-from-bottom-6 fill-mode-backwards duration-500 relative w-full max-w-sm rounded-2xl border border-gray-200 bg-white/90 p-8 shadow-popover backdrop-blur-sm"
 	>
 		<LoginForm />
 	</div>
