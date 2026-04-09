@@ -2,28 +2,26 @@
 
 ### About Project
 
-[Describe your project here in 1–2 sentences.]
+[Describe your project here in 1–2 sentences. At the moment it is a boilerplate for starting new projects.]
 
 IMPORTANT: develop in the main branch and do not commit your changes (I'll review and decide). For any other tasks do not ask for permissions.
 
 - **Language**: TypeScript
 - **Package Manager**: npm
-- **Add-ons**: prettier, eslint, vitest, playwright, tailwindcss, sveltekit-adapter, devtools-json, mcp, shadcn-svelte, auth.js, zod, sveltekit-i18n, mode-watcher, date-fns, @neodrag/svelte, @neoconfetti/svelte
+- **Add-ons**: prettier, eslint, vitest, playwright, tailwindcss, sveltekit-adapter, devtools-json, mcp, shadcn-svelte, auth.js, zod, sveltekit-i18n, mode-watcher, date-fns, @neodrag/svelte, @neoconfetti/svelte, @lucide/svelte
 
 ---
 
 ## Session Workflow
 
-1. **Start**: Run `/prime` to load context and see recent work
-2. **Plan**: Use `/create-plan [request]` before significant features
-3. **Execute**: Use `/implement [plan-path]` to execute plans
-4. **Verify**: Playwright MCP + `npm run check` + `npm test`
+1. **Plan**: Use `/create-plan [request]` before significant features
+2. **Execute**: Use `/implement [plan-path]` to execute plans
+3. **Verify (if asked)**: Playwright MCP + `npm run check` + `npm test`
 
 ## Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/prime` | Initialize session — read context, summarize stack, active tasks, recent commits |
 | `/create-plan [request]` | Research codebase and produce a plan in `.claude/todo/` |
 | `/implement [plan-path]` | Execute a plan step-by-step with verification |
 
