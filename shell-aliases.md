@@ -1,6 +1,9 @@
 # Claude Code Quick-Launch Aliases
 
-Shortcut to launch Claude Code in YOLO mode and start a specific task — eg. run `cy 012` to execute task 012 from `.claude/todo/` — works on **macOS, Linux, and Windows**.
+1. `cy 012` - replace 012 with todo task needed to be done from `.claude/todo/`. Launches Claude Code in YOLO mode and starts a specific task.  
+2. `st` - start back-end & front-end servers & open the app + back-end's graphical UI (database explorer, db manager, etc.)
+
+Works on **macOS, Linux, and Windows**.
 
 ---
 
@@ -10,6 +13,7 @@ Add to your `~/.zshrc` or `~/.bashrc`:
 
 ```bash
 cy() { claude --dangerously-skip-permissions "/todo $1"; }
+alias st='sh ./start.sh'
 ```
 
 Reload your shell:
