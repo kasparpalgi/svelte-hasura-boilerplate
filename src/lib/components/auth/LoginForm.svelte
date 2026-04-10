@@ -6,6 +6,7 @@
 	import { PUBLIC_HAS_GOOGLE_AUTH, PUBLIC_HAS_EMAIL_AUTH } from '$env/static/public';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Input from '$lib/components/ui/Input.svelte';
+	import Alert from '$lib/components/ui/Alert.svelte';
 
 	let mode = $state<'login' | 'signup'>('login');
 	let name = $state('');
@@ -113,12 +114,7 @@
 
 	<!-- Error -->
 	{#if error}
-		<div
-			class="animate-in slide-in-from-top-1 fade-in duration-200 flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-		>
-			<span class="mt-0.5 shrink-0 text-red-400">&#9888;</span>
-			{error}
-		</div>
+		<Alert variant="error">{error}</Alert>
 	{/if}
 
 	{#if mode === 'login'}

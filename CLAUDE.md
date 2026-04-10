@@ -260,7 +260,16 @@ The brand color is **indigo**. Always use `brand-*` tokens, never raw `blue-*`.
 | `brand-600` | `#4f46e5` | Primary buttons, links, accents |
 | `brand-700` | `#4338ca` | Button hover states |
 
-Use `gray-*` for text and borders. Use `red-*` for errors, `green-*` for success, `amber-*` for warnings.
+Use `gray-*` for text and borders. For status colors, prefer semantic tokens over raw Tailwind:
+
+| Semantic token family | Use |
+|---|---|
+| `error-50/100/200/600/700/800` | Error backgrounds, borders, text |
+| `success-50/100/200/600/700/800` | Success backgrounds, borders, text |
+| `warning-50/100/200/600/700/800` | Warning backgrounds, borders, text |
+| `info-50/100/200/600/800` | Info backgrounds (aliases brand-*) |
+
+Shadows: `shadow-card` · `shadow-popover` · `shadow-elevated` · `shadow-glow` (brand ring + lift)
 
 ### Typography
 
@@ -278,6 +287,7 @@ import Button from '$lib/components/ui/Button.svelte';
 import Badge from '$lib/components/ui/Badge.svelte';
 import Card from '$lib/components/ui/Card.svelte';
 import Input from '$lib/components/ui/Input.svelte';
+import Alert from '$lib/components/ui/Alert.svelte';
 ```
 
 **Button** — `variant`: `primary | secondary | ghost | outline | destructive` · `size`: `sm | md | lg` · `loading` prop for async states
@@ -289,6 +299,39 @@ import Input from '$lib/components/ui/Input.svelte';
 **Input** — wraps `<input>` with label, error, and hint. Supports `bind:value`. All native `HTMLInputAttributes` forwarded via rest props.
 ```svelte
 <Input id="email" label="Email" type="email" bind:value={email} error={errors.email} hint="We'll never share it." />
+```
+
+**Alert** — banner for error/success/warning/info messages. Animated in with icon. Optional `title` prop for a bold heading.
+```svelte
+<!-- Error from form action -->
+<Alert variant="error">{form.error}</Alert>
+
+<!-- Success confirmation -->
+<Alert variant="success" title="Saved">Your changes have been applied.</Alert>
+
+<!-- Warning -->
+<Alert variant="warning">Your session expires in 5 minutes.</Alert>
+
+<!-- Info -->
+<Alert variant="info">Feature in beta — feedback welcome.</Alert>
+```
+
+### Error & success patterns
+
+| Pattern | Component | When |
+|---|---|---|
+| Form-level error (failed submit) | `<Alert variant="error">` | Top of the form, conditionally rendered |
+| Field validation error | `<Input error={msg}>` | Inline below the input |
+| Action success confirmation | `<Alert variant="success">` or `<span class="text-success-700">` with CheckCircle | After save, replaces button row |
+| Page-level status banner | `<Alert variant="...">` | Top of page, from URL params or server data |
+
+Inline success (small, next to a Save button):
+```svelte
+{#if saved}
+  <span class="flex items-center gap-1 text-xs text-success-700">
+    <CheckCircle class="h-3.5 w-3.5" /> Saved
+  </span>
+{/if}
 ```
 
 ### Icons

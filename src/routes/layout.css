@@ -17,22 +17,49 @@
   --color-brand-800: #3730a3;
   --color-brand-900: #312e81;
 
-  /* Success */
+  /* Success (green) */
   --color-success-50:  #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
   --color-success-500: #22c55e;
   --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-success-800: #166534;
 
-  /* Warning */
+  /* Warning (amber) */
   --color-warning-50:  #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
   --color-warning-500: #f59e0b;
   --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+
+  /* Error (red) — semantic alias */
+  --color-error-50:  #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+  --color-error-800: #991b1b;
+
+  /* Info (brand alias) */
+  --color-info-50:  var(--color-brand-50);
+  --color-info-100: var(--color-brand-100);
+  --color-info-200: var(--color-brand-200);
+  --color-info-500: var(--color-brand-500);
+  --color-info-600: var(--color-brand-600);
+  --color-info-800: var(--color-brand-800);
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Shadows */
-  --shadow-card:   0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
-  --shadow-popover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-card:     0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-popover:  0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-elevated: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-glow:     0 0 0 3px rgb(99 102 241 / 0.2), 0 4px 6px -1px rgb(99 102 241 / 0.1);
 }
 
 /* ── Base styles ────────────────────────────────────────────── */
