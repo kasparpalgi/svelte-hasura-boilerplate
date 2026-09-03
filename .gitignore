@@ -29,5 +29,3 @@ playwright/.auth
 # Hasura
 hasura/config.yaml
 
-# Kanban runner (local clone paths)
-plugins/dev-kit/runner/config.json

@@ -4,7 +4,7 @@
 
 [Describe your project here in 1–2 sentences. At the moment it is a boilerplate for starting new projects.]
 
-IMPORTANT: develop in the main branch and do not commit your changes (I'll review and decide). For any other tasks do not ask for permissions.
+IMPORTANT: develop in the main branch. Commit and push changes when the task is done. For any other tasks do not ask for permissions.
 
 - **Language**: TypeScript
 - **Package Manager**: npm
@@ -26,15 +26,15 @@ the top of a file.
 | Check a change                        | `/verify`          |
 | Audit auth / secrets / input handling | `/security-review` |
 
-These come from the **`dev-kit` plugin**, which is the single source of truth shared by all
-projects. It lives in `plugins/dev-kit/` in this repo. Install once per machine:
+These come from the **`dev-kit` plugin** in its own repo: `klarity-claude-kit`.
+Install once per machine:
 
 ```bash
-claude plugin marketplace add ./            # from this repo's root
+claude plugin marketplace add kaspar-palgi/klarity-claude-kit
 claude plugin install dev-kit@klarity
 ```
 
-Improve the workflow by editing `plugins/dev-kit/skills/*/SKILL.md` and bumping
+Improve the workflow by editing skills in that repo and bumping
 `plugins/dev-kit/.claude-plugin/plugin.json` — every project picks it up, no copy-paste.
 
 Project-specific knowledge lives in `.claude/skills/` and loads automatically only when
@@ -124,7 +124,6 @@ tests/
 ├── e2e/
 └── unit/
 doc/todo/                  # prompt + outcome history
-plugins/dev-kit/           # shared Claude Code workflow (the marketplace lives at repo root)
 .claude/skills/            # project-specific, path-scoped knowledge
 ```
 
