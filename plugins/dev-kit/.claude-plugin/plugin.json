@@ -1,6 +1,6 @@
 {
 	"name": "dev-kit",
 	"description": "Markdown-file-driven task workflow: /todo, /plan, /verify, research-first.",
-	"version": "0.1.0",
+	"version": "0.2.1",
 	"author": { "name": "Kaspar L. Palgi" }
 }

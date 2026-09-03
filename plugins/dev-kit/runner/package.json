@@ -1,0 +1,17 @@
+{
+	"name": "kanban-runner",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Watch the Kanban TODO column and run /todo in the matching repo.",
+	"type": "module",
+	"bin": {
+		"kanban-runner": "src/run.js"
+	},
+	"scripts": {
+		"start": "node src/run.js",
+		"check": "node src/run.js --check"
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}

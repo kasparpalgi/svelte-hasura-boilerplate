@@ -27,6 +27,8 @@ set out to kill.
 
 1. Create a standalone repo `klarity-claude-kit` containing only:
    `.claude-plugin/marketplace.json`, `plugins/dev-kit/**`, `README.md`.
+   `plugins/dev-kit/runner/` (added by `009` — the Kanban → `/todo` runner) moves with it;
+   drop the `plugins/dev-kit/runner/config.json` line from this repo's `.gitignore`.
 2. Move (git mv, preserve history if easy) `plugins/dev-kit/` out of this repo and delete
    `.claude-plugin/marketplace.json` here.
 3. Re-point the machine: `claude plugin marketplace remove klarity` then
