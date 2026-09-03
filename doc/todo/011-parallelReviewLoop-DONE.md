@@ -78,3 +78,35 @@ if a single machine actually becomes the bottleneck.
 **Deviations:**
 - Could not run actual cross-vendor diff test (gemini CLI broken). Skill written for `llm` tool (Simon Willison's, supports Gemini free tier) instead of gemini CLI directly — more future-proof, works with any provider.
 - tmux layout documented in README instead of a separate `shell-aliases.md` — keeping it co-located with the skills it describes.
+
+## Cross-Review Comparison (2026-09-03)
+
+**Setup:** `pip install llm llm-gemini` + API key → model `gemini-3.1-flash-lite`
+**Diff reviewed:** `plugins/dev-kit/runner/src/` (394 lines across 5 files)
+
+### Gemini findings (8 total)
+
+| # | File | Finding | Verdict |
+|---|------|---------|---------|
+| 1 | `hasura.js` | Repo names with SQL SIMILAR TO metacharacters break `_similar` pattern | ✅ Real bug — fixed |
+| 2 | `run.js:44` | Unbounded stdout accumulation → potential OOM on large Claude sessions | ✅ Real, low-priority |
+| 3 | `run.js:99` | git rev-parse check "misses" uncommitted state | ❌ False positive — intentional by design |
+| 4 | `run.js:105` | `split('\n')` on large output blocks event loop | ❌ Negligible — bounded in practice |
+| 5 | `taskfile.js:27-37` | Fragile HTML-to-text fails on nested/encoded HTML | ✅ Real, accepted risk |
+| 6 | `taskfile.js:44` | `nextNumber` race + O(n) dir scan | ✅ Real, guarded by single-card-per-tick |
+| 7 | `run.js:80` | No repoPath existence check before spawning | ❌ False positive — checked at line 71 |
+| 8 | `run.js:37` | `env: process.env` leaks `HASURA_ADMIN_SECRET` to child claude process | ✅ Security bug — fixed |
+
+**5 real findings, 2 false positives, 1 negligible.**
+
+### Fixes applied (to klarity-claude-kit)
+
+- `run.js` — stripped `HASURA_ADMIN_SECRET` from child env (finding #8)
+- `run.js` — escaped SQL SIMILAR TO metacharacters in `reposPattern` (finding #1)
+
+### Decision: **ADOPT** `/cross-review`
+
+Finding #8 (secret leak) is a genuine security bug that was not caught in the original session.
+Finding #1 (SQL injection-adjacent) is a correctness bug that also was not caught.
+Both would have required a deliberate code-read to spot — Gemini found them on first pass.
+False-positive rate: 2/8 (25%) — acceptable for a review tool.
