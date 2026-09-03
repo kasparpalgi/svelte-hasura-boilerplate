@@ -110,3 +110,27 @@ Finding #8 (secret leak) is a genuine security bug that was not caught in the or
 Finding #1 (SQL injection-adjacent) is a correctness bug that also was not caught.
 Both would have required a deliberate code-read to spot — Gemini found them on first pass.
 False-positive rate: 2/8 (25%) — acceptable for a review tool.
+
+### Claude code-review findings (8 total, from `/code-review medium`)
+
+| # | File | Finding | vs Gemini |
+|---|------|---------|-----------|
+| 1 | `classify.js:35` | `HASURA_ADMIN_SECRET` still leaked via classify's `execFile` — fix in run.js was incomplete | 🆕 Novel — caught that the Gemini-inspired fix was wrong |
+| 2 | `run.js:123` | `report()` throw inside catch leaves card stranded in Doing forever | 🆕 Novel |
+| 3 | `classify.js:35` | Card body injected into LLM prompt → any user can override tier | 🆕 Novel |
+| 4 | `hasura.js:10` | HTTP errors not checked before `res.json()` → opaque SyntaxError on 502 | 🆕 Novel |
+| 5 | `run.js:45` | Unbounded stdout accumulation | ♻️ Same as Gemini #2 |
+| 6 | `run.js:22` | `JSON.parse(board.github)` throws on corrupt record, blocks all polls | 🆕 Novel |
+| 7 | `taskfile.js:51` | `nextNumber` race with two instances | ♻️ Same as Gemini #6 |
+| 8 | `run.js:154` | No SIGTERM handler, card stranded on service restart | 🆕 Novel |
+
+### Fixes applied (second wave)
+
+- `classify.js` — `childEnv` passed to `execFile` (completes secret isolation)
+- `run.js` — `report()` in catch guarded with its own try/catch
+- `run.js` — `JSON.parse(board.github)` wrapped in try/catch
+- `hasura.js` — `res.ok` check before `res.json()`
+
+### Final verdict
+
+Both reviews found the same OOM and race condition. Gemini caught the secret leak and SQL injection first. Claude caught that the Gemini-inspired secret-leak fix was *incomplete* (classify.js missed), plus 4 unique control-flow bugs (report throw, JSON.parse crash, prompt injection, no SIGTERM). Together they eliminated 9 distinct bugs in one pass. **Two-tool cross-review is definitively worth it.**
