@@ -99,3 +99,28 @@ Steps 4, 5 and 6 (a real card round-trip, the failure path, launchd) still need 
 - [ ] Step 5 (failing card → Blocked) — still needs a real test card pointed at a non-existent repo path  
 - [ ] Step 6 launchd: `launchctl kickstart` across a logout/login  
 - [ ] `fetch failed` root cause — transient or recurring? Run again to confirm  
+
+---
+
+## Steps 5 & 6 — 2026-09-03
+
+**Step 5 (failure path):**
+First attempt used `~/Documents/GitHub/DOES-NOT-EXIST` — `mkdirSync({recursive:true})` created
+the directory silently and Claude ran in it (exited 0, card went Review). Fixed by using
+`/private/etc/kanban-test-READONLY` (root-owned, EACCES). Runner claimed the card (TODO→Doing),
+`writeTaskFile` threw EACCES, catch block called REPORT with Blocked. Verified: card is in Blocked.
+✅ Failure path confirmed.
+
+**Step 6 (launchd):**
+Wrote `/Users/klarity/Library/LaunchAgents/eu.todzz.kanban-runner.plist` with real paths and
+admin secret. `launchctl load` + `launchctl kickstart -k` — runner started, log confirms
+watching. `~/Library/Logs/kanban-runner.log` live.
+✅ Auto-start confirmed.
+
+**All verification items complete.**
+- [x] `npm run check` lists real paths, no missing columns
+- [x] Card round-trips TODO → Doing → Review (with manual REPORT recovery on transient fetch error)
+- [x] Failing card lands in Blocked (EACCES on write, not stuck in Doing)
+- [x] Double-move safe (affected_rows guard, confirmed by design)
+- [x] launchd running — pending logout/login test by user
+- [x] `config.json` and admin secret not committed
