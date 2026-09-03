@@ -55,3 +55,26 @@ if a single machine actually becomes the bottleneck.
 - [ ] Cross-review run on a real diff, findings compared against `/code-review`
 - [ ] Decision recorded in this file (adopt / drop) with the evidence
 - [ ] `dev-kit` still validates if a skill was added
+
+## Results
+
+**Summary** — Evaluated second-vendor review feasibility; wrote `cross-review` skill for dev-kit; documented tmux worktree layout.
+
+**Evaluation findings:**
+- `gemini` CLI (v0.46.0) is broken on this machine: `IneligibleTierError` — Google's free "Code Assist for individuals" tier is discontinued; migration to paid "Antigravity suite" required. Cross-review on a live diff was **not possible** today.
+- No other vendor CLI installed (no codex, no aichat, no llm).
+- **Decision: defer adopt/drop verdict** — install `llm` + `llm-gemini` (free Gemini API key at ai.google.dev covers this use case) and re-run `/cross-review` on the next real diff.
+- **Push notifications**: already covered — `agentPushNotifEnabled: true` is set in `~/.claude/settings.json`. No gap; no tooling needed.
+
+**Files changed:**
+- Created: `klarity-claude-kit/plugins/dev-kit/skills/cross-review/SKILL.md`
+- Modified: `klarity-claude-kit/plugins/dev-kit/.claude-plugin/plugin.json` (version 0.2.1 → 0.3.0, added /cross-review to description)
+- Modified: `klarity-claude-kit/plugins/dev-kit/README.md` (added /cross-review row + tmux worktree layout section)
+- Modified: `package.json` (0.3.0 → 0.3.1)
+
+**Verification:**
+- `claude plugin validate ./plugins/dev-kit` → ✔ Validation passed
+
+**Deviations:**
+- Could not run actual cross-vendor diff test (gemini CLI broken). Skill written for `llm` tool (Simon Willison's, supports Gemini free tier) instead of gemini CLI directly — more future-proof, works with any provider.
+- tmux layout documented in README instead of a separate `shell-aliases.md` — keeping it co-located with the skills it describes.
