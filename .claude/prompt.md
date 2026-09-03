@@ -1,1 +1,0 @@
-Run `/prime` to load project context, or ask me what you need.
