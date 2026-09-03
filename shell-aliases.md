@@ -1,6 +1,6 @@
 # Claude Code Quick-Launch Aliases
 
-1. `cy 012` - replace 012 with todo task needed to be done from `.claude/todo/`. Launches Claude Code in YOLO mode and starts a specific task.  
+1. `cy 012` - replace 012 with todo task needed to be done from `doc/todo/`. Launches Claude Code in YOLO mode and starts a specific task.
 2. `st` - start back-end & front-end servers & open the app + back-end's graphical UI (database explorer, db manager, etc.)
 
 Works on **macOS, Linux, and Windows**.
@@ -54,7 +54,7 @@ doskey st=sh ./start.sh
 
 ## The `cy` Alias
 
-Starts Claude Code in YOLO mode and immediately runs `/todo <number>`, loading and executing the matching task file from `.claude/todo/`.
+Starts Claude Code in YOLO mode and immediately runs `/todo <number>`, loading and executing the matching task file from `doc/todo/`.
 
 **Usage:** `cy 020`
 
@@ -64,8 +64,17 @@ Starts Claude Code in YOLO mode and immediately runs `/todo <number>`, loading a
 
 ## Available Slash Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/todo [number]` | Open and execute a task from `.claude/todo/` by number |
-| `/create-plan [request]` | Plan a feature before implementing (saves to `.claude/todo/`) |
-| `/implement [plan-path]` | Execute a plan from `.claude/todo/` |
+| Command           | Purpose                                                      |
+| ----------------- | ------------------------------------------------------------ |
+| `/todo [number]`  | Open and execute a task from `doc/todo/` by number           |
+| `/plan [request]` | Turn a request into a new task file in `doc/todo/` (no code) |
+| `/verify`         | Run the project's verification chain                         |
+
+All three come from the `dev-kit` plugin — install it once from this repo's root:
+
+```bash
+claude plugin marketplace add ./
+claude plugin install dev-kit@klarity
+```
+
+See `plugins/dev-kit/README.md`.

@@ -1,0 +1,15 @@
+{
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "Write|Edit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *.svelte|*.ts|*.js|*.css) npx prettier --write \"$f\" >/dev/null 2>&1 ;; esac; exit 0"
+					}
+				]
+			}
+		]
+	}
+}

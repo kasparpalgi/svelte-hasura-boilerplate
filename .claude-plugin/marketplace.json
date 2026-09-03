@@ -1,0 +1,13 @@
+{
+	"$schema": "https://code.claude.com/schemas/marketplace.json",
+	"name": "klarity",
+	"owner": { "name": "Kaspar L. Palgi" },
+	"description": "Shared Claude Code workflow for Klarity projects (Svelte + Hasura).",
+	"plugins": [
+		{
+			"name": "dev-kit",
+			"source": "./plugins/dev-kit",
+			"description": "Markdown-file-driven task workflow: /todo, /plan, /verify, research-first."
+		}
+	]
+}
