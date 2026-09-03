@@ -108,6 +108,9 @@ klarity@kaspar-mac GitHub % claude plugin marketplace add ./
 Adding marketplace…
 ✘ Failed to add marketplace: Marketplace file not found at /Users/klarity/Documents/GitHub/.claude-plugin/marketplace.json
 
+--- then AI agent did it and reportd all good and you can now run /todo 009 and it will work. Restarted claude code and ⏺ Unknown command: /todo. Did you mean /undo?
+⏺ Args from unknown skill: 009
+
 Split of responsibility, which is what makes this stay clean:
 
 - **`dev-kit` plugin** — workflow that is true in _every_ project (how a task runs).
