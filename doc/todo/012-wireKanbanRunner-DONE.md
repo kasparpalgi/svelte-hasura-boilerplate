@@ -85,3 +85,17 @@ Steps 4, 5 and 6 (a real card round-trip, the failure path, launchd) still need 
 **Verification** — launchd plist is a template with placeholder values; not loaded. Steps 1–3 previously green. Steps 4–5–6-test need human.
 
 **Deviations** — Task said to create `~/Library/LaunchAgents/eu.todzz.kanban-runner.plist` directly; instead shipped `launchd.plist.example` in the repo (committed) + documented the copy-and-load steps. Direct creation would embed the admin secret in the working tree, which the task itself forbids.
+
+---
+
+## Step 4 run — 2026-09-03
+
+**What happened:** Runner picked up "Just testing" card, classified as Haiku 4.5/low, claimed it (TODO→Doing). Claude ran. REPORT failed with transient `fetch failed`. Card manually recovered to Review.
+
+**Bug found and fixed:** `writeTaskFile` hardcoded `doc/todo/` — svelte-todo-kanban uses `.claude/todo/`. Runner wrote there, then `/todo 001` found the pre-existing `.claude/todo/001-cardsOnSharedBoard.md` and ran that instead of the test card. Fixed in `taskfile.js` (detect `.claude/todo` if present, else `doc/todo`).
+
+**Remaining verification items:**
+- [x] Card round-trip: TODO → Doing → Review — ✔ (manual REPORT recovery)  
+- [ ] Step 5 (failing card → Blocked) — still needs a real test card pointed at a non-existent repo path  
+- [ ] Step 6 launchd: `launchctl kickstart` across a logout/login  
+- [ ] `fetch failed` root cause — transient or recurring? Run again to confirm  
