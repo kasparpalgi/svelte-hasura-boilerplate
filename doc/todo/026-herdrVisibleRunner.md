@@ -15,6 +15,10 @@ the launchd daemon, so herdr never sees it.
 > bare child — then card → runner → visible agent on your phone, which is the loop you've
 > been after since 021." — "yes do it"
 
+**Depends on 027 — run that first.** The target workflow both tasks build toward is
+documented at the top of `027-runnerNeverWedges.md`. A visible agent is no use while the
+queue is wedged, and 027 is the smaller change.
+
 ## The gap
 
 ```
@@ -75,11 +79,27 @@ Replace the `shell("claude", …)` call in `run.js` with a herdr path, behind a 
    stdout from task 025; same file, same gitignore rule).
 6. **Close the pane**, then the existing HEAD-compare + `git push` logic, unchanged.
 
-### Drop `--dangerously-skip-permissions`
+### Permission model — decided: `--permission-mode acceptEdits`
 
-An interactive `claude` in a pane can ask, and the phone can answer. That is the 021 loop
-closing. Keep the flag available via config for unattended runs, but the herdr path's
-default should be interactive — otherwise this task buys visibility and nothing else.
+Drop `--dangerously-skip-permissions` on the herdr path and pass
+`--permission-mode acceptEdits` instead. Verified present in Claude Code 2.1.261
+(`choices: acceptEdits, auto, bypassPermissions, manual, dontAsk, plan`).
+
+Why this one:
+
+- File edits are the bulk of a `/todo` run and flow without prompting, so tasks do not
+  stall on routine work.
+- Bash and destructive operations still prompt → the agent settles to `blocked` → phone.
+  That is the 021 loop, and it is the only reason to build this task.
+- `bypassPermissions` would reproduce today's blind headless behaviour with extra steps.
+  `manual` would block on nearly every step and be unusable overnight.
+
+The relay answers these prompts natively — its README lists *"Answer approvals and
+structured plan questions from Codex, Claude Code"*. No Claude Remote Control needed on
+this path; see the architecture decision in 027.
+
+Keep `--dangerously-skip-permissions` reachable via config (`unattended: true`) for runs
+where nobody will be watching a phone.
 
 ## Risks
 
