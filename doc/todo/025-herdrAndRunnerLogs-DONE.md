@@ -37,7 +37,7 @@ Results section (Summary + Files changed) before the full verification. Never sk
 - [x] After runner completes a task, `NNN-slug.log` exists with full agent output
 - [x] Card comment on success includes last ~15 lines of output
 - [x] `/todo` skill text updated with resilience note
-- [x] Herdr Android app can reach `herdr` over SSH
+- [x] Phone can reach herdr — **via the relay PWA, not the Play Store app** (see session 2)
 
 ## Results
 
@@ -46,7 +46,11 @@ Results section (Summary + Files changed) before the full verification. Never sk
 Two things: the Herdr Android connection is fixed, and the runner now keeps a full
 transcript of every agent session.
 
-### 1. Herdr Android — root cause and fix
+### 1. Herdr Android — a real bug, but NOT the cause
+
+> **Superseded — see session 2 below.** The `PATH` problem described here was real and is
+> still worth fixing, but it was **not** why the Android app failed. The app never looks
+> for `herdr` on `PATH`. Kaspar retried after this fix and got the identical error.
 
 The app SSHes into the Mac and runs `herdr` there. Over a **non-interactive** SSH
 command, zsh sources only `~/.zshenv` — not `~/.zprofile`/`~/.zshrc` — so `PATH` was:
@@ -75,6 +79,10 @@ default   running   /Users/klarity/.config/herdr
 
 The `default` session the app offered is the real one, and it is now reachable.
 No sudo, no manual bridge install, no herdr-web build needed.
+
+`herdr` was also symlinked into `/opt/homebrew/bin` (writable; `/usr/local/bin` is not),
+since herdr's own remote-attach docs say it probes Homebrew/mise/Nix install paths as well
+as `PATH`. Also irrelevant to the app, kept because it is correct.
 
 ### 2. Runner: transcripts + richer notifications
 
@@ -131,3 +139,102 @@ tail body (needs a real runner task to fire). Both are user-side confirmations.
   same surface: the phone.
 - The design did not mention gitignoring the logs. Without it the transcript dirties the
   tree and the runner skips the repo forever, so it was necessary, not scope creep.
+
+---
+
+## Session 2 — the actual Herdr fix
+
+Two wrong diagnoses preceded this (024 blamed herdr-web; 025 session 1 blamed `PATH`).
+Both were guesses. This session stopped guessing and instrumented the SSH side instead.
+
+### The instrument
+
+A temporary block in `~/.zshenv`, guarded on `$SSH_CONNECTION`, appended
+`$ZSH_EXECUTION_STRING` to `~/.herdr-ssh-debug.log`. `~/.zshenv` is sourced by every
+non-interactive SSH command, so this captures everything a remote tool executes. It caught
+the app's probes on the first retry:
+
+```sh
+# probe 1 — session discovery
+[ -x ~/.local/bin/herdr-mobile-bridge ] && … sessions --json
+for d in ~/.config/herdr/sessions/*/; do [ -S "$d/herdr.sock" ] && …
+[ -S ~/.config/herdr/herdr.sock ] && echo herdr-socket-session=default
+
+# probe 2 — arch + binary resolution
+echo "herdr-arch=$(uname -m)"
+~/.local/bin/herdr-mobile-bridge --version || echo herdr-bridge=missing
+for c in ~/.local/bin/herdr ~/.cargo/bin/herdr ~/bin/herdr /usr/local/bin/herdr /usr/bin/herdr …
+```
+
+### Root cause
+
+1. The app finds `default` by **enumerating sockets**, not by running `herdr`. That is why
+   the session picker worked while attach failed — and why no `PATH` fix could help.
+2. The binary it actually needs is **`herdr-mobile-bridge`**, a different binary from
+   `herdr`, at `~/.local/bin/herdr-mobile-bridge` with a `sessions --json` subcommand.
+3. `uname -m` returns `arm64` on macOS but `aarch64` on Linux. The app bundles Linux-named
+   arches only, so it reports the architecture as unsupported.
+
+**`herdr-mobile-bridge` is not published anywhere** — GitHub code search returns 0 results,
+and the similarly-named `victorymt/herdr-mobile-bridge` is an unrelated Linux-only Node
+plugin with no releases. The "install it manually" instruction points at a binary only the
+app's vendor has. **The Play Store app `dev.herdr.mobile` cannot work against a macOS host
+until its vendor ships a darwin build.** Not fixable from this side.
+
+### What was delivered instead: the relay, made permanent
+
+`0cv/herdr-mobile-relay` was already installed and running — it had simply never been
+paired. `devices.json` held `"credentials": null` with a bootstrap invitation expired at
+`2026-09-04T18:12` (these links live 10 minutes). A temporary `trycloudflare.com` tunnel was
+still serving it, which the first sweep missed by grepping process names for "herdr" —
+`cloudflared` does not match.
+
+Made permanent on Cloudflare:
+
+| | |
+| --- | --- |
+| Tunnel | `herdr-mobile-relay-kaspar-mac` (`5bd5431d-ded1-4bb6-a47c-b97771b2b851`), 4 edge connections |
+| Hostname | `herdr.servicehost.io` → CNAME to the tunnel |
+| Service | `com.herdr-mobile-relay.service` (LaunchAgent) — starts at login, no open pane |
+| Zone | `servicehost.io` only |
+
+**`todzz.eu` was deliberately not used.** Kaspar asked for "todzz cloudflare", but todzz.eu
+is on Namecheap nameservers and carries production records for a live product — 5 MX
+(email forwarding), 2 SPF TXT, a Google site verification, a Vercel `www` CNAME and an
+`api` A record. Putting it on Cloudflare means a full nameserver migration. `servicehost.io`
+was already a Cloudflare zone, so it cost nothing and risked nothing. Confirmed with Kaspar
+before `cloudflared tunnel login`, which authorizes one zone at a time — verified after the
+fact by decoding `cert.pem` and resolving its `zoneID` against the Cloudflare API:
+`AUTHORIZED ZONE: servicehost.io`.
+
+Stable setup ran unattended via `HERDR_STABLE_YES=1`, `HERDR_STABLE_DOMAIN`,
+`HERDR_STABLE_HOSTNAME`. It reported a failure at the last step — a 60s timeout waiting on
+`https://herdr.servicehost.io/healthz` — but the endpoint was already live. The Mac's
+router (192.168.0.1) was serving a cached *negative* answer from before the record existed;
+Cloudflare's own NS, 1.1.1.1 and 8.8.8.8 all resolved it. Proven with
+`curl --resolve herdr.servicehost.io:443:104.21.27.236 …` → **HTTP 200**.
+
+Also repointed the recorded phone-app origin from the dead `trycloudflare.com` host to
+`https://herdr.servicehost.io` (`phone-app-origin-configured`, `.bak` kept), so future
+setup links are correct.
+
+### Verification
+
+| Check | Result |
+| --- | --- |
+| App's SSH probes captured | ✅ 8 lines from `81.90.125.29`, both probes |
+| `herdr-mobile-bridge` published anywhere | ✅ ruled out — 0 GitHub code-search hits |
+| Tunnel connectors | ✅ 4 edge connections, `darwin_arm64` |
+| Public endpoint | ✅ HTTP 200 via `--resolve` (router cache masked it locally) |
+| Cloudflare zone authorized | ✅ `servicehost.io`, active — `todzz.eu` untouched |
+| Phone paired | ✅ device at `2026-09-05T20:08:29Z`, confirmed by Kaspar |
+| Logger removed, PATH fix kept | ✅ `ssh localhost 'command -v herdr'` still resolves |
+
+### Deviations
+
+- The original PS asked to fix the Play Store app. That turned out to be impossible from
+  this side; the goal behind it — phone access to herdr — was delivered via the relay.
+  Flagged rather than quietly substituted.
+- `servicehost.io` instead of `todzz.eu`, for the production-DNS reason above.
+- The stable-setup state file records a failed run. Everything it provisions is in place
+  and verified; only its own local health probe failed, on stale router DNS.
