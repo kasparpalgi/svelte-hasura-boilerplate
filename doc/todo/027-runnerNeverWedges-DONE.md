@@ -224,3 +224,48 @@ rather than reporting success.
 [`klarity-claude-kit/plugins/dev-kit/runner/README.md` → "Connect a new project"](https://github.com/kaspar-palgi/klarity-claude-kit/blob/main/plugins/dev-kit/runner/README.md#connect-a-new-project).
 The guard behaviour above is documented in the same file under "Guards — why it never
 wedges".
+
+---
+
+## Follow-up, same session — four things the first real runs exposed
+
+Kaspar ran tasks 159 and 160 on `svelte-todo-kanban` immediately after this shipped. Both
+ended badly, in four distinct ways, all now fixed:
+
+1. **`Sonnet 4.6 / low` ran as Sonnet 5 / medium.** Two separate things. The version
+   number never mattered and never will — `--model sonnet` always means the current
+   Sonnet — but the effort after the slash was being *dropped* in favour of the tier
+   default. It is now passed through. Tiers are defined in one place, `classify.js`,
+   documented in the runner README. Choosing the model from a card dropdown instead of a
+   line of prose is filed as **kanban task 161**.
+2. **`--permission-mode acceptEdits` cost more than it saved** — tokens spent deciding
+   each call, and it still interrupted for uninteresting things like editing the task file
+   it had been told to edit. This machine now runs `"unattended": true`.
+3. **The `⏸ needs you` push arrived empty.** `herdr agent read --source recent-unwrapped`
+   fails with `agent_not_idle` precisely when the agent is blocked — the only time that
+   notification fires. Falls back to `--source visible`.
+4. **A run that did nothing was reported `Runner ✔`.** 159 did its work, wrote its log,
+   then stopped without renaming the file or committing; exit code 0, so the runner
+   called it a success and the repo went `⛔ blocked` on the next tick. The runner now
+   verifies the `-DONE` rename and a clean tree before claiming success, and sends
+   **⚠ did not finish** naming what was left behind.
+
+**A latent bug in 027 itself, caught while testing (4).** Attempt counts are keyed on the
+task file's mtime so a human edit means "retry". But most runs *edit the task file*, which
+moved the mtime and reset the counter every tick — a task that half-finished would have
+looped forever at "attempt 1", the exact failure this task existed to prevent. The runner
+now adopts the post-run mtime as its own, so only a human edit reads as a retry. Verified:
+attempts accumulate 1 → 2 → skipped, and an edit resets to 1.
+
+**Task 159 finished by hand.** The auto-save work was real and type-clean
+(`CardDetailView.svelte` is not among the repo's 19 pre-existing errors); renamed,
+committed and pushed, so the card and its GitHub issue could close.
+
+**Why both runs stopped early** — in each transcript a line sits *unsent* in the pane
+("commit this", "the drag handle sticks…"). The runner only waits for a human while the
+agent is *blocked*, never while it is *idle with a question*, and closes the tab the
+moment `--wait` returns. Answers typed a moment later go nowhere. Filed as **kanban task
+162**, with a nudge-then-hold design to argue with.
+
+`npm test` still cannot run in the runner's environment — Playwright's Chromium binary is
+not installed. `npx playwright install` fixes it; noted in 161.
