@@ -47,3 +47,44 @@ In `svelte-todo-kanban`:
   not in that table, the runner falls back to the family's latest — no crash, but the
   card silently lies. Keep the two lists in step.
 - Fable bills usage credits; it is fine to offer but should not be the default.
+
+## Results
+
+**Summary** — In `svelte-todo-kanban`: the card's Agent Model dropdown now offers the
+seven version-pinned values from the table above (plus *Auto*), matching `FAMILIES` in
+`klarity-claude-kit/plugins/dev-kit/runner/src/classify.js` exactly. Agent Effort gained
+`xhigh` and `max`. Bare `opus`/`sonnet`/`haiku`/`fable` values already on old cards keep
+resolving correctly server-side (`fieldLabel()` splits on `-`/`@`), they're just no
+longer offered as fresh choices in the dropdown.
+
+**Files changed** (all in `svelte-todo-kanban`)
+- Modified: `src/lib/components/todo/CardDetailView.svelte` — dropdown options
+- Modified: `src/lib/locales/{en,et,cs}/common.json` — new `card.agent_model_*` /
+  `card.agent_effort_xhigh` / `card.agent_effort_max` keys, old bare-family keys removed
+- Modified: `src/lib/utils/cardHelpers.ts` — `todoEditSchema` enum widened for both
+  fields (zod strips unknown values on save otherwise)
+- Created: `hasura/migrations/default/1788691191454_widen_agent_model_effort_check/`
+  (up/down) — widened `todos_agent_model_check` / `todos_agent_effort_check` CHECK
+  constraints to accept the new values; applied to the hosted instance
+  (`todzz.admin.servicehost.io`) via `hasura migrate apply`
+- Bumped `package.json` 0.12.1 → 0.13.0 (feature)
+
+**Verification**
+- `hasura metadata export` clean diff before and after the migration (no drift)
+- `npx vitest run src/lib/server/__tests__/taskfile.test.ts` — 25/25 pass, unaffected
+  (server-side label building already handled versioned models generically)
+- `npm run check` in `svelte-todo-kanban` — 9 pre-existing errors / 4 pre-existing
+  warnings, none in the touched files (`og-image/+server.ts`, `Line.svelte`,
+  `TodoFiltersSidebar.svelte` are unrelated and predate this change)
+- Did not browser-test the dropdown live (no running dev server / auth session in this
+  session); the schema/enum/label wiring is covered by the existing unit test and
+  `npm run check` on the touched files
+
+**Deviations**
+- No `classify.js` change needed — its `FAMILIES` table already contained exactly the
+  seven versions the task asked the dropdown to offer.
+- Added a DB migration that wasn't explicitly listed in the task: the existing
+  `todos_agent_model_check`/`todos_agent_effort_check` CHECK constraints (from task 161)
+  only allowed the four bare family names and `low/medium/high`. Without widening them,
+  saving any new dropdown value would fail the DB constraint. This was implied by "the
+  dropdown just has to offer them" but required a schema change to actually work.
