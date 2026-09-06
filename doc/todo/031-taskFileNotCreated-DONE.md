@@ -63,3 +63,54 @@ it will write `.claude/todo/163-dragNDropCrap-TODO.md`.
 - `task_file_path` is still never cleared on `-DONE`; the existence check makes that
   harmless rather than fixing the root data model. Worth a follow-up only if a case
   appears where the check is not enough.
+
+---
+
+## Follow-up — second round, same session
+
+**The move did work.** `.claude/todo/163-dragNDropCrap-TODO.md` was written at 18:35:38 UTC
+(commit `a24faca`), the card was commented "Task file ready", and the runner picked it up at
+18:36:10. The check was made before the file landed.
+
+**The Pushbullet "⛔ blocked — dirty working tree" alerts were self-inflicted.** Every listed
+path is a file this session was editing in `svelte-todo-kanban`'s working tree. The runner
+polls every 20s and correctly refuses to run against a dirty tree; it unblocked the moment
+the work was committed. Not a bug — but a real hazard: editing a repo the runner watches
+stalls its whole queue until you commit.
+
+**Second real bug, found from the file that was written:** it had no `> Run with:` line even
+though the card's dropdown says Opus 5 / high, so the runner classified the tier itself and
+started 163 on **Sonnet 5 / medium**.
+
+`buildTaskFile()` / `buildDraftFile()` read `card.agent_model` and `card.agent_effort`, but
+**none of the three endpoints that call them selected those columns** — not
+`write-task-file`, not `write-draft-file`, not `update-task-file`. `git log -S agent_model`
+over `src/routes/api/github/` returns nothing: the columns were never in those queries. So
+the card dropdown built in task 029/161 has never once reached a task file. Files that do
+carry a correct `Run with:` line (162, 161) were written by an agent by hand, not by Kanban.
+
+**Files changed** — `svelte-todo-kanban` commit `ee498db`:
+
+- modified `write-task-file`, `write-draft-file`, `update-task-file` `+server.ts` — the
+  queries now select `agent_model` and `agent_effort`
+- created `src/routes/api/github/__tests__/write-task-file.test.ts` — 8 tests
+
+**Verification**
+
+- `npm run test:unit:server` — 163 passed (13 files)
+- New tests exercise the real `POST` handler with `githubRequest` / `serverRequest` mocked:
+  stale path → fresh file; live `-TODO.md` → skip; draft → rename; wrong list → no GitHub
+  call at all; and the card's dropdown reaching the `Run with:` line
+- **Mutation-checked, not just green:** reverting the `fileExists()` gate fails "writes a
+  fresh file when the card points at one that was deleted"; removing `agent_model` /
+  `agent_effort` from the query fails the guard test. Restored → 8/8
+- `serverLog` output is visible in the test run's stdout/stderr, confirming the logging fix
+  emits where `loggingStore` emitted nothing
+
+**Still open**
+
+- Task 163 is running on Sonnet 5 / medium instead of the Opus 5 / high the card asks for.
+  The code fix applies to the *next* file written; it cannot retag a run in flight.
+- `0.13.1`/`0.13.2` are not deployed to todzz.eu yet — the live site still trusts a stale
+  `task_file_path`. Until it is deployed, a card whose file was deleted needs its
+  `task_file_path` cleared by hand.
