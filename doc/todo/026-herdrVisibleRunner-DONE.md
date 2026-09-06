@@ -121,3 +121,68 @@ where nobody will be watching a phone.
 - [ ] A permission prompt reaches the phone and can be answered from it end-to-end
 - [ ] herdr server stopped → runner falls back to headless, does not wedge
 - [ ] Pane closed and agent gone after completion; no `task-*` leaks after 3 runs
+
+---
+
+## Results
+
+**Summary** — The runner no longer spawns `claude` as a bare child of the launchd
+daemon. With `"useHerdr": true` it creates a herdr tab in the repo cwd, starts the agent
+as `task-NNN --kind claude --permission-mode acceptEdits`, prompts `/todo NNN --wait`,
+and closes the tab afterwards. Because the agent lives in a herdr pane the server
+inventories it, so it is visible in `herdr agent list` and on the phone relay while it
+works — the gap this task was filed for.
+
+A `blocked` agent (permission prompt, or the startup trust dialog) now sends a Pushbullet
+**"Runner ⏸ needs you"** carrying the pane text, then waits up to `blockedMinutes` for a
+human to answer it from the relay PWA before resuming. That is the 021 loop, closed.
+
+**Open question resolved.** `herdr tab create [--workspace ID] [--cwd PATH] [--label TEXT]
+[--env K=V] [--focus|--no-focus]`, returning `.result.tab` and `.result.root_pane`. The
+runner has no `$HERDR_PANE_ID` under launchd and there may be no workspace at all after a
+cold boot, so it calls `workspace list` and creates a `runner` workspace when empty (the
+first one after a server restart can take minutes — the timeout allows for it), then one
+tab per task.
+
+**Files changed**
+
+- created `plugins/dev-kit/runner/src/herdr.js` (126) — tab/agent lifecycle, blocked loop, reaping
+- created `plugins/dev-kit/runner/src/notify.js` (17) — Pushbullet + `tail`, extracted to keep `run.js` under 200
+- modified `plugins/dev-kit/runner/src/run.js` (201) — `runTask()` picks herdr or headless; `--check` reports herdr
+- modified `plugins/dev-kit/runner/src/config.js` — `useHerdr`, `unattended`, `taskMinutes`, `blockedMinutes`
+- modified `plugins/dev-kit/runner/config.json` (gitignored) + `config.example.json` — `useHerdr: true`
+- modified `plugins/dev-kit/runner/README.md` — new "Visible mode (herdr)" section; tmux mode marked legacy
+- modified `plugins/dev-kit/.claude-plugin/plugin.json` — 0.4.0 → 0.5.0
+
+**Verification**
+
+- ✅ `herdr agent list` shows `task-NNN` mid-run — polled at t+10s during a live run
+- ✅ Agent runs in a herdr pane, so the relay server inventories it (the phone view itself
+  is Kaspar's to confirm — the relay and cloudflared tunnel were both up throughout)
+- ✅ Blocked → notify → answered from outside the process → run resumes → completes.
+  Exercised against an untrusted scratch repo whose trust dialog blocks at startup;
+  `send-keys` stood in for the thumb on the phone.
+- ✅ herdr unreachable (`HERDR_BIN=/nonexistent`) → falls back to headless, does not wedge.
+  Scratch-repo harness end to end: task renamed to `-DONE`, `500-stub.log` written and
+  gitignored, tree clean, pushed to the bare origin.
+- ✅ Pane/tab closed and agent gone after every one of 6 runs; a planted stray `task-999`
+  was reaped at the start of the next run.
+- ✅ `node --check` on all five runner sources.
+- ⬜ Answering a prompt from the actual phone UI — needs Kaspar's thumb.
+
+**Deviations**
+
+- Two fixes the design did not anticipate, both found by running it:
+  `agent start` returns `agent_not_ready` when the agent blocks during startup, which was
+  fatal on the first cut; it now routes to the same blocked → phone loop. And prompting
+  right after a dialog clears returns `agent_prompt_stalled` because the TUI is still
+  redrawing, so there is a 2s settle plus one resend (safe: the stall means the keystrokes
+  never landed).
+- `blockedMinutes` is budgeted from the first block, not from task start, so a long task
+  that blocks at minute 40 still gets its full answering window.
+- `notify.js` was extracted purely to keep `run.js` at 201 lines.
+- **027 was not run first**, contrary to this file's own instruction — `/todo 026` was
+  invoked directly. The three wedge failure modes in 027 are still live: a repo dirty
+  outside the task folder still skips silently every tick, and a task that fails to
+  rename itself still re-runs forever. Both repos happened to be clean, so the runner is
+  working now, but 027 remains the next thing to run.
