@@ -88,12 +88,17 @@ This project is configured for Claude Code (and compatible with other AI agents)
 | [`GEMINI.md`](GEMINI.md) | Gemini CLI |
 | [`shell-aliases.md`](shell-aliases.md) | Shell aliases (`cs`, `cr`) for launching Claude Code with context pre-loaded |
 
-**Slash commands** (inside Claude Code sessions):
+**Slash commands** (from the `dev-kit` plugin — see [`CLAUDE.md`](CLAUDE.md) for install):
 
 | Command | Purpose |
 |---------|---------|
-| `/prime` | Load project context and summarize current state |
-| `/create-plan [request]` | Research codebase and produce a plan in `.claude/todo/` |
-| `/implement [plan-path]` | Execute a plan step-by-step with verification |
+| `/plan [request]` | Turn a request into a numbered task file in `doc/todo/` |
+| `/todo [number]` | Execute a task file, verify, log the outcome and ship |
+| `/verify` | Run the checks that match what changed |
+| `/security-review` | Audit auth, secrets and input handling |
+
+Every request becomes one markdown file in `doc/todo/` holding the original prompt at the top and
+the outcome at the bottom — that folder is the prompt history. The whole loop (voice card → task
+file → agent run → results back on the board) is described on the site's [`/workflow`](src/routes/workflow/+page.svelte) page.
 
 See [`shell-aliases.md`](shell-aliases.md) for setup instructions.
