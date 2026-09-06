@@ -121,3 +121,7 @@ Keep `run.js` under 200 lines; move state handling out rather than growing it.
 No `-TODO` suffix on this filename, deliberately: `findPending()` ignores it, so the runner
 will not pick up a task that rewrites and restarts the runner mid-run. Run it by hand with
 `/todo 027`, then `/todo 026`.
+
+----
+
+Related, and visible right now: after the daemon restart, svelte-todo-kanban is checked out on 155-githubFullIntegration with no upstream, so git pull --ff-only fails and the repo is skipped silently every tick. That board consumes nothing until the branch is sorted. I left it alone — switching your checked-out branch isn't the runner's call, and notifying on it is 027's job. 027 is the next thing to run. ---- SORT OUT THE BRANCH AND EVERYTHING!!!! AFTER THIS EVERYTHING MUST WORK: TODO BOARD CARD - CLAUDE CODE STARTS - I SEE IT FROM MOBILE OR MAC OR ANY COMPUTER VIA HRDR - DING! ON MOBILE IF AGENT NEEDS TO ASK ME OR FINISHED - UPDATE BOARD/GITHUB ISSUE/TODO FILE WHEN DONE + SIMPLE INSTRUCTIONS IN README HOW TO SET UP BOARD WITH MAC HARD DRIVE LOCATION OF THAT REPO ON NEW PROJECTS. LAST THING AT THS FILE POINT TO THOSE INSTRUCTIONS.
