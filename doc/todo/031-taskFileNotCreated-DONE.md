@@ -189,3 +189,26 @@ while iterating were deleted; the card carries exactly one write-up comment.
 - `svelte-todo-kanban` 0.13.x is still not deployed to todzz.eu.
 - The webhook remains dead until `GITHUB_WEBHOOK_SECRET` is set in CapRover and a hook is
   registered. Not required now that the runner closes the loop.
+
+---
+
+## Follow-up 3 — the "⛔ blocked" push flood
+
+`state.setBlocked()` deduped on the **full** reason string, and that string embeds the
+first six dirty paths. A dirty tree grows a file at a time while someone works in it, so
+every new file read as a *new* block and sent another push — one unchanged condition,
+a push every poll.
+
+`preflight()` now returns a stable `kind` (`dirty` / `fetch` / `detached`) next to the
+detailed message; `run.js` dedupes on the kind and still sends the file list in the text.
+
+- modified `plugins/dev-kit/runner/src/repo.js`, `src/run.js`
+- created `plugins/dev-kit/runner/test/blocked.test.js`
+- `plugins/dev-kit/runner/package.json` gains `npm test` → `node --test test/*.test.js`
+- versions: plugin 0.8.1, runner 0.6.1 (commit `d17889b`)
+
+**Verification** — `npm test` in the runner: 7 passed. Daemon restarted at 19:08:48 after
+confirming `run.js --check` showed no pending task in either repo, so the restart could
+not start a task and `reap()` could not touch the live manual run. `state.json` now holds
+`{"kasparpalgi/svelte-todo-kanban": "dirty"}` instead of the file list, so the repeat
+pushes stop.
