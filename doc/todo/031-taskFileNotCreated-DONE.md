@@ -114,3 +114,78 @@ carry a correct `Run with:` line (162, 161) were written by an agent by hand, no
 - `0.13.1`/`0.13.2` are not deployed to todzz.eu yet — the live site still trusts a stale
   `task_file_path`. Until it is deployed, a card whose file was deleted needs its
   `task_file_path` cleared by hand.
+
+---
+
+## Follow-up 2 — the closing half of the loop had never run
+
+**Root cause of all three symptoms: there is no GitHub webhook.**
+`gh api repos/kasparpalgi/svelte-todo-kanban/hooks` returns `[]`, and
+`GITHUB_WEBHOOK_SECRET` is absent from `.env`, so `register-webhook` can only ever
+answer `500 GITHUB_WEBHOOK_SECRET not configured` and `verifySignature` would reject
+every delivery anyway. Task 016 built card-moves, completion comments and issue-closing
+behind a push webhook that has never once fired.
+
+Two further bugs would have broken it even with a webhook:
+
+1. `findTaskFileRenames` hardcoded `doc/todo/` (fixed earlier, `d78f913`).
+2. `boards.github` is a **text** column holding JSON, not `jsonb`. Both
+   `GET_BOARD_BY_REPO` and the webhook's own todo lookup used
+   `github: { _contains: {...} }`, which Hasura rejects as
+   `field '_contains' not found in type: 'String_comparison_exp'` — so
+   `handleTaskFileDone` threw before it could do anything. Fixed in `9edb0b1` with
+   `_ilike` and a `%…%` pattern.
+
+**Decision: the runner closes the card, not the webhook.** The webhook needs a CapRover
+env var, a deploy and a hook registration before it can work — three steps outside this
+session. The runner already knows the outcome the moment a task ends, runs locally, and
+needed no deploy. The webhook stays idempotent alongside it (it skips a card already
+past TODO).
+
+**Files changed** — `klarity-claude-kit` commit `c578e8d`:
+
+- created `plugins/dev-kit/runner/src/kanban.js` — `closeLoop()`: move the card to
+  Review, post the agent's own write-up, file follow-up task files as Backlog cards
+- created `plugins/dev-kit/runner/test/kanban.test.js` — 6 tests
+- modified `src/run.js` — calls `closeLoop` after a successful push, with the files that
+  commit added; the ✔ notification now names what happened to the card
+- modified `src/config.js`, `config.example.json` — optional `endpoint` + `adminSecret`;
+  off entirely when absent. The real `config.json` is gitignored
+- bumped `plugin.json` 0.7.1 → 0.8.0, runner `package.json` 0.5.1 → 0.6.0
+
+and `svelte-todo-kanban` commit `9edb0b1` — the `_ilike` fix.
+
+**Two bugs found by running it against real data, not by reading it**
+
+- `cardIdOf` matched `/From Kanban card `uuid`/i`, which also matched 164's quotation of
+  its *parent* ("_Original card requirement (from Kanban card `…`)_"), so the follow-up
+  looked like it already had a card and no Backlog card was created. Anchored to the
+  exact marker `buildTaskFile` writes, at the start of its own line.
+- `resultsOf` required a `## Results` heading. The 163 agent wrote
+  `## Investigation` / `## Plan` / `## Log` / `## Status` and no Results at all, so the
+  card got a bare "Task complete" placeholder. It now prefers `## Results` and otherwise
+  takes everything past the requirement block.
+
+**Verification** — live, against production Hasura:
+
+- card 163 → **Review**, `task_file_path` → `163-dragNDropCrap-DONE.md`, and the agent's
+  full write-up posted as a comment
+- **"Drag'n'drop polish (followup to 163)"** created in **Backlog**, linked to
+  `.claude/todo/164-dragNDropPolish.md`
+- run twice: second run reports `card → Review (results already posted)` and creates no
+  duplicate card
+- `node --test test/kanban.test.js` — 6 passed; `node --check` clean on all runner files
+- `svelte-todo-kanban` server tests — 51 passed across the touched suites
+
+**Cleanup:** three placeholder "Task complete" comments this session created on card 163
+while iterating were deleted; the card carries exactly one write-up comment.
+
+**Still needs a human**
+
+- The runner daemon holds the old code in memory. It picks up `closeLoop` on
+  `launchctl kickstart -k gui/$(id -u)/eu.todzz.kanban-runner` — **not while a task is
+  live**, since a restarted daemon's next `runInHerdr` calls `reap()` and would close a
+  surviving `task-*` pane.
+- `svelte-todo-kanban` 0.13.x is still not deployed to todzz.eu.
+- The webhook remains dead until `GITHUB_WEBHOOK_SECRET` is set in CapRover and a hook is
+  registered. Not required now that the runner closes the loop.
