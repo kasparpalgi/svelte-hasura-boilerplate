@@ -186,3 +186,8 @@ tab per task.
   outside the task folder still skips silently every tick, and a task that fails to
   rename itself still re-runs forever. Both repos happened to be clean, so the runner is
   working now, but 027 remains the next thing to run.
+- Observed after the `launchctl kickstart`: `svelte-todo-kanban` is checked out on
+  `155-githubFullIntegration` with no upstream, so `git pull --ff-only` fails and the repo
+  is skipped silently every tick. A fourth flavour of the 027 wedge, and the reason that
+  board consumes nothing right now. Left alone — switching someone's checked-out branch is
+  not the runner's call, and notifying on it belongs in 027.
