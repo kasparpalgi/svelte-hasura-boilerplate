@@ -1,4 +1,4 @@
-> Run with: Sonnet 5 / medium
+> Run with: Opus 5 / high
 
 # Wrong model
 
@@ -6,9 +6,6 @@
 
 [NEVER REMOVE]
 
-███▛█   Claude Code v2.1.263
-▝▜██████▀  Sonnet 5 with medium effort · Claude Pro
-  ▝▝ ▝▝    ~/Documents/ezy/ezysmart-web
 This card was from dropdown selected at the Kanban board Opus but picked Sonnet 5
 /Users/klarity/Documents/ezy/ezysmart-web/.claude/todo/012-addMoreLoggingTo-TODO.md
 
