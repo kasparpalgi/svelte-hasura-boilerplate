@@ -4,8 +4,6 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+If you think that there's too little % of session left for even slightly cheaper model then
 
 _From Kanban card `baf07592-83c9-423e-8da2-f5750678dac9`._
-
-_GitHub issue #4 — end the commit subject with `(#4)`._
