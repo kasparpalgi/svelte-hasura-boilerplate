@@ -101,4 +101,18 @@ Every request becomes one markdown file in `doc/todo/` holding the original prom
 the outcome at the bottom — that folder is the prompt history. The whole loop (voice card → task
 file → agent run → results back on the board) is described on the site's [`/workflow`](src/routes/workflow/+page.svelte) page.
 
+Two more `dev-kit` skills load automatically rather than being typed: `research-first` (looks up
+docs before writing code against an unfamiliar API) and `cross-review` (pipes the diff to a
+second-vendor AI CLI for an independent bug review). A Kanban-board runner also ships in the same
+plugin repo — see its [README](https://github.com/kasparpalgi/klarity-claude-kit/blob/main/plugins/dev-kit/runner/README.md)
+— which watches a board and fires `/todo` automatically when a card moves to **TODO**.
+
+This repo also carries two project-specific, path-scoped skills under [`.claude/skills/`](.claude/skills/)
+that load only when matching files are touched:
+
+| Skill | Loads for | Covers |
+|-------|-----------|--------|
+| `svelte-conventions` | `src/**/*.svelte`, `src/**/*.ts` | Store factory pattern, optimistic updates, GraphQL workflow, logging, critical rules |
+| `design-system` | `src/**/*.svelte`, `src/**/*.css` | Brand tokens, typography, UI components, icons, layout, UX delight |
+
 See [`shell-aliases.md`](shell-aliases.md) for setup instructions.
