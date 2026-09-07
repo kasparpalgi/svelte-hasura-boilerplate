@@ -194,3 +194,51 @@ _`svelte-todo-kanban` (commit `6f06efc`, 0.14.0 → 0.15.0)_
   user's call; the dry run is in this file.
 - `plugins/dev-kit/runner/README.md` carries an unrelated uncommitted edit that was in the
   tree before this task. Left alone, still uncommitted.
+
+---
+
+## Follow-up, same session — the loop still did not close
+
+First real run on a third repo (`ezyspace-landing`, card → TODO, issue #2) exposed two more
+gaps behind the same symptom: `no card id in 002-fixErrors-DONE.md — nothing to close`.
+
+**1. Drafts lost the card's identity.** Only `buildTaskFile` wrote the
+`_From Kanban card <uuid>_` footer. But a card that reaches the agent list normally already
+has a *draft* file from card creation, and `renameDraftToTodo` copied that draft's body
+through verbatim — so the file the agent finished named neither its card nor its issue, and
+`closeLoop` had nothing to look up. Drafts now carry the card footer from the start, and the
+draft → `-TODO` rename backfills whichever footer is missing, so every draft written before
+today is repaired on its way to the agent without its own text being touched.
+
+**2. Nothing ever closed the GitHub issue.** That job belonged to the push webhook, which
+was never registered on any repo. The runner now does it directly with `gh`: comment the
+agent's Results onto the issue and close it — or, for a `-BLOCKED.md` run, comment and leave
+it open, because a person still owes the work. The issue number is read from the file's
+`_GitHub issue #N_` line, **never** from the filename: in this repo `033` is not issue #33.
+
+**3. The card kept showing the request, never the outcome.** `closeLoop` moved the card and
+posted a comment; the card *body* still read as it did when it was written. It now gets the
+Results appended the same way the task file does, replacing an earlier report rather than
+stacking a second one.
+
+**Files changed**
+
+- `svelte-todo-kanban` (`4f02c92`, 0.15.0 → 0.15.1) — `taskfile.ts` (`cardLine`,
+  `ensureFooter`), `write-task-file/+server.ts` (backfill on rename, one `encode()`),
+  `__tests__/taskfile.test.ts`
+- `klarity-claude-kit` (`143624d`, plugin 0.9.0 → 0.10.0, runner 0.7.0 → 0.8.0) — new
+  `runner/src/issue.js`, `runner/src/kanban.js` (`toHtml`, `withResults`, card content in
+  `MOVE`), `runner/src/run.js`, `skills/verify/SKILL.md` (`channel: 'chrome'`), new
+  `runner/test/issue.test.js`
+- `ezyspace-landing` (`eec3669`) — footer backfilled into `002-fixErrors-DONE.md`,
+  `playwright.config.ts` on `channel: 'chrome'`
+
+**Verification** — 192/192 kanban server tests, 18/18 runner tests, `npm run check`
+unchanged at 9 pre-existing errors, prettier/eslint clean (no new findings), plugin
+validates. Ran the real `closeLoop` against the live board: issue #2 commented and closed,
+card → Review with its Results rendered. Ran it a second time: `issue #2 was already
+closed`, `results already posted`, still exactly one Results block — idempotent.
+
+**Deviations** — `002-fixErrors-DONE.md` and its card were repaired by hand, because they
+predate the fix. No other back-fill was attempted; drafts still in flight repair themselves
+on the next move to the agent list.
