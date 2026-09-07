@@ -1,0 +1,39 @@
+  )")
+  ⎿  [main a6b9201] docs(todo): 029 — append Results section
+      1 file changed, 41 insertions(+)
+
+⏺ Bash(git status --short; git diff HEAD~2 -- doc/todo/029-cardVersionDropdown-DONE.md | tail
+  -5)
+  ⎿  +- Added a DB migration that wasn't explicitly listed in the task: the existing
+     +  `todos_agent_model_check`/`todos_agent_effort_check` CHECK constraints (from task 161)
+     +  only allowed the four bare family names and `low/medium/high`. Without widening them,
+     +  saving any new dropdown value would fail the DB constraint. This was implied by "the
+     +  dropdown just has to offer them" but required a schema change to actually work.
+
+⏺ Clean now, working tree matches committed content. Let's push.
+
+⏺ Bash(git pull --rebase origin main && git push origin main)
+  ⎿  From https://github.com/kasparpalgi/svelte-hasura-boilerplate
+      * branch            main       -> FETCH_HEAD
+     Current branch main is up to date.
+     To https://github.com/kasparpalgi/svelte-hasura-boilerplate.git
+        db4ffec..a6b9201  main -> main
+
+⏺ Both repos are committed and pushed.
+
+  Summary: Task 029 shipped in svelte-todo-kanban: the Agent Model dropdown now offers 7
+  version-pinned values (fable-5.1, opus-5/4.8/4.6, sonnet-5/4.6, haiku-4.5) matching the
+  runner's FAMILIES table exactly, and Agent Effort gained xhigh/max. Also widened the
+  todoEditSchema zod enum (would've silently stripped new values otherwise) and the DB CHECK
+  constraints on todos.agent_model/agent_effort, applied via hasura migrate apply to the
+  hosted instance. taskfile.test.ts (25/25) and npm run check on touched files are clean.
+  Version bumped 0.12.1→0.13.0. Task file renamed to -DONE and pushed to both repos.
+
+✻ Baked for 6m 53s · done 1:45 PM
+                                                                               106075 tokens
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯ 
+──────────────────────────────────────────────────────────────────────────────────────────────
+  model Sonnet 5  week 49%  ctx 105k  session 99%  main +116-18  resets 11:00  ctx used 11%
+  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← for agents
+                                                                                         /rc
