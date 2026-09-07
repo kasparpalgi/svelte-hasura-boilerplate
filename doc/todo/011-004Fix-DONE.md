@@ -50,3 +50,43 @@ Everything up-to-date
 _From Kanban card `3cf13c61-a33e-4009-a094-9b87133a0a92`._
 
 _GitHub issue #11 — end the commit subject with `(#11)`._
+
+## Results
+
+**Summary** — Three concerns in the task; the fix for all of them lives in the
+`klarity-claude-kit` dev-kit plugin, not this repo (this repo is the cross-repo task hub).
+
+1. **Model/effort from the card dropdown** — already fixed. `svelte-todo-kanban`
+   `src/lib/server/taskfile.ts:ensureRunWith` reconciles the card's `agent_model` /
+   `agent_effort` fields into the `> Run with:` line (its comment names the exact
+   "chose Opus, ran Sonnet" bug), and the runner's `classify.js:explicitTier` honours the
+   pinned version + effort. No change needed.
+
+2. **Session-usage gating** — reactive throttle + cooldown already landed in `aa0b525`
+   (after the failure log above). The remaining gap: the detector never recognised Claude
+   Code's headless wall message. Fixed `usage.js` to catch `Claude AI usage limit
+   reached|<epoch>` (used as the *exact* reset time) and a bare "usage limit reached".
+   Before this, a session already at the wall produced empty runs the runner read as
+   "tree clean — probably finished", so it kept marching — exactly the log above.
+
+3. **Follow-ups must go to Kanban Backlog, not `-TODO` files** — the real still-broken bug
+   and the direct cause of the avalanche in the log. The runner (`kanban.js:fileFollowUps`)
+   already files suffixless `NNN-slug.md` files as Backlog cards and `queue.js:listPending`
+   only auto-runs `-TODO.md`, so the runner design was correct — but the `/todo` and
+   `/plan` skills told agents to name follow-ups `-TODO.md`, so every split-out task got
+   run one-by-one. Fixed the skills: agent-created follow-ups are now named `NNN-slug.md`
+   with **no suffix** (Backlog, human-triaged, never auto-run), carry no `_From Kanban
+   card_` line, and `/plan` writes only its first slice as `-TODO.md`.
+
+**Files changed** (all in `~/Documents/GitHub/klarity-claude-kit/plugins/dev-kit/`)
+- modified `runner/src/usage.js` — epoch + bare "usage limit reached" detection
+- modified `runner/test/usage.test.js` — two new tests (25 pass)
+- modified `skills/todo/SKILL.md` — follow-ups are suffixless Backlog files
+- modified `skills/plan/SKILL.md` — only the first slice is `-TODO`, rest suffixless
+- modified `runner/package.json` — 0.10.0 → 0.10.1
+- modified `.claude-plugin/plugin.json` — 0.12.0 → 0.12.1
+
+**Verification** — `node --test test/*.test.js` → 25 pass / 0 fail.
+
+**Deviations** — No code change was needed for concerns 1 & 2 beyond the usage-detection
+gap; they were verified against the live sibling repos rather than reimplemented.
