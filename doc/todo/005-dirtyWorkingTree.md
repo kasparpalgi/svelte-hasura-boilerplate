@@ -4,6 +4,7 @@
 
 [NEVER REMOVE]
 
+Keeps telling:
 13:00:42 skip ezy-rent/ezy-iot — dirty working tree — party-detect/.claude/todo/037-ld2410CombinedIngest.md
 13:01:09 skip ezy-rent/ezy-iot — dirty working tree — party-detect/.claude/todo/037-ld2410CombinedIngest.md
 13:01:36 skip ezy-rent/ezy-iot — dirty working tree — party-detect/.claude/todo/037-ld2410CombinedIngest.md
