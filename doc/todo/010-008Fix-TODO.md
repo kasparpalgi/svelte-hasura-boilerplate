@@ -1,0 +1,15 @@
+> Run with: Opus 4.8 / high
+
+# 008 fix
+
+## Original Requirement
+
+[NEVER REMOVE]
+
+008 was meant not to close the terminal once the session finished so I can write followups but yes, think how then we end the session so that we can mark it done and in filesystem and move to review list and mark in github done.... Do not disturb with your work any other possible running sessions. I will restart the Herdr myself when it's time.
+
+Also last session again I set from dropdown Opus 4.8 but was run with Sonnet 5. PS this one is also meant to run Opus 4.8 and high.
+
+_From Kanban card `abd44347-ec99-4f4d-b9a7-5cd1fb7085e1`._
+
+_GitHub issue #10 — end the commit subject with `(#10)`._
