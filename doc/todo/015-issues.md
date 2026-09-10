@@ -15,4 +15,6 @@ diverged from origin/main (pull --ff-only failed)
 09:41:53 skip kasparpalgi/svelte-todo-kanban — main has diverged from origin/main (pull --ff-only failed)
 09:42:22 skip kasparpalgi/svelte-todo-kanban — main has diverged from origin/main (pull --ff-only failed)
 
+Also, in this repo
+
 _From Kanban card `96985b49-ea39-4a7f-a02b-774798ab7f41`._
