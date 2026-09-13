@@ -12,4 +12,6 @@ Also, the time is wrong. Logs:
 
 13:55:12 ⏳ waiting out usage limit until 2026-09-13T18:54:52.266Z --&gt; here time is actually 16:55:12 Estonian summer time +3h and the time is bullshit as Claude itself says:
 
+You've hit your session limit · resets 5:40pm (Europe/Tallinn)
+
 _From Kanban card `37cfd6df-789f-4c69-97b0-601a21944f16`._
