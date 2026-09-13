@@ -4,11 +4,11 @@
 
 [NEVER REMOVE]
 
-There was todo task requiring function not to start the task when left less than possibly needed to complete.
+There was todo #004task requiring function not to start the task when left less than possibly needed to complete.
 
 Also, the time is wrong. Logs:
 
-13:54:52   log → /Users/klarity/Documents/GitHub/svelte-todo-kanban/.claude/todo/189-deleteReturnedNoRow.log ---&gt; here shouldn't start as was 99%
+13:54:52 log → /Users/klarity/Documents/GitHub/svelte-todo-kanban/.claude/todo/189-deleteReturnedNoRow.log ---&gt; here shouldn't start as was 99%
 
 13:55:12 ⏳ waiting out usage limit until 2026-09-13T18:54:52.266Z --&gt; here time is actually 16:55:12 Estonian summer time +3h and the time is bullshit as Claude itself says:
 
