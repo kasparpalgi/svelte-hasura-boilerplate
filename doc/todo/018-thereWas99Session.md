@@ -4,7 +4,7 @@
 
 [NEVER REMOVE]
 
-There was todo #004 task requiring function not to start the task when left less than possibly needed to complete. Also #011 tried to fix it.
+There was todo #004 task requiring function not to start the task when left less than possibly needed to complete. Also #011 tried to fix it. But still started session on 99% session limit usage.
 
 Also, the time is wrong. Logs:
 
