@@ -4,6 +4,6 @@
 
 [NEVER REMOVE]
 
-There was todo task requiring function not to start the task
+There was todo task requiring function not to start the task when
 
 _From Kanban card `37cfd6df-789f-4c69-97b0-601a21944f16`._
