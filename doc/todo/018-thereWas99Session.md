@@ -4,7 +4,7 @@
 
 [NEVER REMOVE]
 
-There was todo #004task requiring function not to start the task when left less than possibly needed to complete.
+There was todo #004 task requiring function not to start the task when left less than possibly needed to complete.
 
 Also, the time is wrong. Logs:
 
