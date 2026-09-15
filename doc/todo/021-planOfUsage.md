@@ -6,6 +6,6 @@
 
 [NEVER REMOVE]
 
-1. After each session
+1. After each session get token usage.
 
 _From Kanban card `b30bef4e-203a-464f-a098-ce6235312490`._
