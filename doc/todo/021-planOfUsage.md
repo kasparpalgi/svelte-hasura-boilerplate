@@ -11,6 +11,6 @@
 3. Each project shall have option to select what plan it has - can we then know the real cost as if you pay €18 per month then how to know how much cheaper every spent token is?
 4. Then we shall store that real price on the card and see it + see below the list total for that list
 
-Ask questions and
+Ask questions and only plan this session + create followup todo tasks
 
 _From Kanban card `b30bef4e-203a-464f-a098-ce6235312490`._
