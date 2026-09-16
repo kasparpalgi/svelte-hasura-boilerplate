@@ -4,8 +4,6 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+Executing this now manually to get it working. I think
 
 _From Kanban card `9734c526-1c3d-4ca9-af1b-fe4155c23e96`._
-
-_GitHub issue #23 — end the commit subject with `(#23)`._
