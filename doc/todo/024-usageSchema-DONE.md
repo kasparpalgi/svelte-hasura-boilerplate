@@ -60,3 +60,40 @@ Tasks 025 (pricing upsert needs the table), 026 (usage capture needs `claude_usa
 027 (UI reads the aggregates + plan columns).
 
 _From #21 planning. End the commit subject with `(#21)`._
+
+## Results
+
+**Summary** — Added the Claude usage/pricing schema to `svelte-todo-kanban`'s
+Hasura (not this repo, per scope): `claude_model_pricing` (LiteLLM-shaped rows,
+public read via role `user`), `claude_usage` (per-session token/cost rows,
+`session_id` unique, FKs to `todos`/`users`, select restricted to
+`user_id = X-Hasura-User-Id`, writes admin-only), and three `claude_plan*`
+columns on `users` (self-service update by the owning user). Added
+`claude_usages` array relationships on both `todos` and `users`. `model` is
+deliberately not FK'd to pricing (brand-new models can lag the LiteLLM list).
+
+**Files changed** (all in `~/Documents/GitHub/svelte-todo-kanban`, commit `9d160c3`):
+- Created: `hasura/migrations/default/1801000000000_create_claude_model_pricing/{up,down}.sql`
+- Created: `hasura/migrations/default/1802000000000_create_claude_usage/{up,down}.sql`
+- Created: `hasura/migrations/default/1803000000000_add_claude_plan_to_users/{up,down}.sql`
+- Created: `hasura/metadata/databases/default/tables/public_claude_model_pricing.yaml`
+- Created: `hasura/metadata/databases/default/tables/public_claude_usage.yaml`
+- Modified: `hasura/metadata/databases/default/tables/tables.yaml` (register 2 new tables)
+- Modified: `hasura/metadata/databases/default/tables/public_todos.yaml` (`claude_usages` array rel)
+- Modified: `hasura/metadata/databases/default/tables/public_users.yaml` (`claude_usages` array rel,
+  `claude_plan`/`claude_plan_monthly`/`claude_plan_currency` in select + update permissions)
+
+**Verification** — Pre-check: `svelte-todo-kanban` tree was clean, runner idle
+(confirmed via `hasura-runner.log`). Ran `hasura migrate apply` +
+`hasura metadata apply` against the live todzz Hasura
+(`https://todzz.admin.servicehost.io`); `hasura metadata ic list` reports
+consistent. Live GraphQL checks as admin: `claude_model_pricing { model }`,
+`claude_usage_aggregate { aggregate { sum { cost_usd } } }`,
+`todos { claude_usages_aggregate { ... } }`, and
+`users { claude_plan claude_plan_monthly claude_plan_currency }` all resolve.
+Live check as role `user` (`x-hasura-user-id` header): `claude_model_pricing`
+and `claude_usage` both selectable and correctly scoped.
+
+**Deviations** — None from the spec. Kept the board-membership select filter
+on `claude_usage` simple (`user_id` only), as the task explicitly allowed
+("via board membership if that's simpler").
