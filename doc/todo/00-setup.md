@@ -1,0 +1,1 @@
+See ../../klarity-claude-kit and ../../svelte-hasura-boilerplate and set this project up for me for agentic coding. In the folders provided see only the agentic coding part how to run /todo #tasknumber and the plugin install and skills. Note that this project is not SvelteKit Hasura like the example boilerplate so nothing to see about that stack.
