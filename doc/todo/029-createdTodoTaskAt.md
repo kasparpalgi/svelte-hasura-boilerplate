@@ -4,8 +4,6 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+But it didn't trigger and in logs I see:
 
 _From Kanban card `d6997547-2eef-47ef-a35f-0ee227395c94`._
-
-_GitHub issue #25 — end the commit subject with `(#25)`._
