@@ -4,8 +4,6 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+see previous tasks so they were.
 
 _From Kanban card `de757a0a-6640-4e36-8b0b-35103f698c97`._
-
-_GitHub issue #24 — end the commit subject with `(#24)`._
