@@ -4,6 +4,6 @@
 
 [NEVER REMOVE]
 
-see previous tasks so they were.
+see previous tasks.
 
 _From Kanban card `de757a0a-6640-4e36-8b0b-35103f698c97`._
