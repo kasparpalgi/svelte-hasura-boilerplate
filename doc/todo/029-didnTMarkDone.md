@@ -6,7 +6,7 @@
 
 [NEVER REMOVE]
 
-See why and fix - 'tekdok-app' repo task #007 was successfully and renamed DONE but in Kanban board not moved to "Review" list - remained in "TODO" list. Also, follow-up #008 task was created as a markdown file but in kanban board into backlog card was not created.
+See why and fix - 'tekdok-app' repo task #007 was successfully and renamed DONE but in Kanban board not moved to "Review" list - remained in "TODO" list. Also, follow-up #008 task was created as a Markdown file but in kanban board into backlog card was not created.
 
 Also, in the same repo previous
 
