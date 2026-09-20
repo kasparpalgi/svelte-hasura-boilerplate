@@ -1,12 +1,12 @@
 > Run with: Sonnet 4.6 / high
 
-# Didn't mark done
+# Didn't mark done in kanban
 
 ## Original Requirement
 
 [NEVER REMOVE]
 
-See why and fix - 'tekdok-app' repo task #008 was successfully completed but file was not marked DONE, 008-taskname.log file was not created that usually is created and also the task remained in TODO list in kanban board not went to 'Review" list.
+See why and fix - 'tekdok-app' repo task #008 was successfully and renamed DONE but in Kanban board not moved to "review"
 
 Also, in the same repo previous 
 
