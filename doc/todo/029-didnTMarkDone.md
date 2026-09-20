@@ -6,7 +6,7 @@
 
 [NEVER REMOVE]
 
-See why and fix - 'tekdok-app' repo task #008 was successfully and renamed DONE but in Kanban board not moved to "review"
+See why and fix - 'tekdok-app' repo task #008 was successfully and renamed DONE but in Kanban board not moved to "Review"
 
 Also, in the same repo previous 
 
