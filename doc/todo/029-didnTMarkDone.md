@@ -8,7 +8,7 @@
 
 See why and fix - 'tekdok-app' repo task #008 was successfully completed but file was not marked DONE, 008-taskname.log file was not created that usually is created and also the task remained in TODO list in kanban board not went to 'Review" list.
 
-Also, 
+Also, in the same repo 
 
 see if review exists
 
