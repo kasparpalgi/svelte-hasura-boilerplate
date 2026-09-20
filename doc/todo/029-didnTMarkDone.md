@@ -1,3 +1,5 @@
+> Run with: Sonnet 4.6 / high
+
 # Didn't mark done
 
 ## Original Requirement
