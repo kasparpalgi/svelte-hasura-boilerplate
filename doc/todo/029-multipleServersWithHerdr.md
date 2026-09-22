@@ -6,7 +6,7 @@
 
 [NEVER REMOVE]
 
-See ../server server "Karel" and I have already installed there Herdr, cloned all the repos in `/plugins/dev-kit/runner/config.json` in `kasparpalgi/klarity-claude-kit` repo and also that repo is there and config file copied. Same folder structure. Also, installed claude code but plugin not installed. Make everything working in that machine and then I shall be able to pick from the board which one to run.\
+See ../server server "Karel" and I have already installed there Herdr, cloned all the repos in `/plugins/dev-kit/runner/config.json` in `kasparpalgi/klarity-claude-kit` repo and also that repo is there and config file copied. Same folder structure. Also, installed claude code but plugin not installed. Make everything working in that machine and then I shall be able to pick from the Kanban board which one to run.\
 \
 Even better would be if I could see in the herdr in this machine also running sessions in that Karel machine so I would not need to have 2 herdrs on my mobile but just the one I already have.
 
