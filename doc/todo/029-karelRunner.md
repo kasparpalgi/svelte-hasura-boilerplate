@@ -39,6 +39,6 @@ q. Exit, change nothing
 
 ---
 
-What to pick? Also, in Karel I don't see at the bottom of Claude %
+What to pick? Also, in Karel I don't see at the bottom of Claude % of current session and % of week and other stats I see on Mac.
 
 _From Kanban card `8497387b-95aa-4c31-85bd-f1db295eea38`._
