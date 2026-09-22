@@ -81,7 +81,11 @@ In this repo: this file, and `package.json` 0.12.1 → 0.12.2.
   `kirjanduse-selts` as the one board waiting.
 - `git status --porcelain` clean in the new clone on both machines — a dirty tree is
   exactly what would block the repo from ever running.
-- launchd `eu.todzz.kanban-runner` kickstarted so the sweep code is live.
+- The sweep really runs inside the tick, not just via `--check`: a scratch config
+  pointed at an unreachable endpoint gives `board sweep failed: fetch failed` on
+  `--once` — and the tick carries on past it rather than dying.
+- launchd `eu.todzz.kanban-runner` kickstarted and Karel's `kanban-runner.service`
+  restarted, both on 0.17.0, both `watching 15 repo(s)`.
 
 **Deviations** — the sweep deliberately does *not* drive peers, unlike the hand-run
 command; each machine adopts its own. No install step ran for `kirjanduse-selts`: the
