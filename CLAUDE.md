@@ -30,7 +30,7 @@ These come from the **`dev-kit` plugin** in its own repo: `klarity-claude-kit`.
 Install once per machine:
 
 ```bash
-claude plugin marketplace add kaspar-palgi/klarity-claude-kit
+claude plugin marketplace add kasparpalgi/klarity-claude-kit
 claude plugin install dev-kit@klarity
 ```
 
