@@ -1,3 +1,6 @@
+> Run with: Sonnet 4.6 / medium
+> Machine: karel
+
 # Karel runner
 
 ## Original Requirement
@@ -36,6 +39,6 @@ q. Exit, change nothing
 
 ---
 
-What to pick?
+What to pick? Also, in Karel I don't see
 
 _From Kanban card `8497387b-95aa-4c31-85bd-f1db295eea38`._
