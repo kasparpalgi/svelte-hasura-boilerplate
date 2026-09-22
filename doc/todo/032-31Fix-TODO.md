@@ -1,0 +1,14 @@
+> Run with: Opus 5 / high
+> Machine: mac
+
+# 31 fix
+
+## Original Requirement
+
+[NEVER REMOVE]
+
+31 was completed and made kirjanduse-selts run the first task but as fresh folder calude asked if I trust the folder. From mobile I think I set I trust but it never installed svelte
+
+_From Kanban card `81015da4-64ac-4d81-92f7-d3761a216bc9`._
+
+_GitHub issue #32 — end the commit subject with `(#32)`._
