@@ -6,7 +6,7 @@
 
 [NEVER REMOVE]
 
-See ../server server "Karel" and I have already installed there Herdr, cloned all the repos in \`kasparpalgi/klarity-claude-kitrunner, claude code (give me URL to authenticate once time is there) and everything working in this machine (same config/repos must be cloned there) and then I shall be able to pick from the board which one to run.\
+See ../server server "Karel" and I have already installed there Herdr, cloned all the repos in \` \`kasparpalgi/klarity-claude-kitrunner, claude code (give me URL to authenticate once time is there) and everything working in this machine (same config/repos must be cloned there) and then I shall be able to pick from the board which one to run.\
 \
 Even better would be if I could see in the herdr in this machine also running sessions in that Karel machine so I would not need to have 2 herdrs on my mobile but just the one I already have.
 
