@@ -6,6 +6,6 @@
 
 email to wise automatic payment PDF extraction creation
 
-the DMV table.
+.MV table.
 
 _From Kanban card `b73eb6ca-4822-4652-9652-3a90911bd614`._
