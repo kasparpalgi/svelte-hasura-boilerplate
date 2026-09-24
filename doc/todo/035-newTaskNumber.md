@@ -4,7 +4,7 @@
 
 [NEVER REMOVE]
 
-1. Create board card 
+1. Create board card
 2. Creates gh issue with number
 3. Creates md file with same number (if number exists then move it to todo/archive subfolder if it was DONE otherwise to todo/duplicate folder)
 
