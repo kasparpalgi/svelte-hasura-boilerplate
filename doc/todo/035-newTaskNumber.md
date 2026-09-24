@@ -4,8 +4,8 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+1. Create board card 
+2. Creates gh issue with number
+3. Creates md file with same number (if number exists then move it to todo/archive subfolder if it was DONE otherwise to todo/duplicate folder)
 
 _From Kanban card `bee97501-7d33-4e73-822a-2b7da462d5b9`._
-
-_GitHub issue #34 — end the commit subject with `(#34)`._
