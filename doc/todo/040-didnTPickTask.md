@@ -7,6 +7,6 @@
 
 [NEVER REMOVE]
 
-At kirjanduse-selts repo added task to TODO list but from logs saw "dirty working tree", cleaned up but still doesn't pick the
+At kirjanduse-selts repo added task to TODO list but from logs saw "dirty working tree", cleaned up but still doesn't pick the todo task up. Is it because working tree was dirty or some other issue?
 
 _From Kanban card `e2c8712a-3752-4860-88b0-0b812935be8c`._
