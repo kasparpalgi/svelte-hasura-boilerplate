@@ -1,11 +1,7 @@
 {
 	"name": "svelte-hasura-boilerplate",
 	"private": true,
-<<<<<<< Updated upstream
-	"version": "0.13.2",
-=======
 	"version": "0.14.0",
->>>>>>> Stashed changes
 	"type": "module",
 	"engines": {
 		"node": ">=20.0.0",
