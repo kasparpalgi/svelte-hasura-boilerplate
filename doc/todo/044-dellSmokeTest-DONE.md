@@ -13,3 +13,7 @@ containing the output of `hostname` and `claude --version`. Change nothing else.
 ## Results
 
 The agent finished the run but never renamed the file, so the runner completed it. The tree was clean with nothing left to commit — see the `.log` beside this file for the full session.
+
+**Note (task 043):** this run did *not* succeed. Claude stopped at the first-run login
+screen in the herdr pane (`hasCompletedOnboarding` missing on Dell), did nothing, and the
+runner renamed the file DONE anyway. Fixed and re-verified in 045; runner bug filed as 046.
