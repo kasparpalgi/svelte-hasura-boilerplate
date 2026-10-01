@@ -11,3 +11,7 @@ I have in Kanban option "Kaspar Mac" or "Karel Ubuntu" where to run the session.
 _From Kanban card `3cf29d8b-be55-43d0-ad56-4dc8a8d5f33d`._
 
 _GitHub issue #43 — end the commit subject with `(#43)`._
+
+## Results
+
+The agent finished the run but never renamed the file, so the runner completed it. The tree was clean with nothing left to commit — see the `.log` beside this file for the full session.
