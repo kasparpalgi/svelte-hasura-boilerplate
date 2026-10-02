@@ -14,7 +14,7 @@ What you need to do
 
 \-&gt; I did that but in this machine where you run currently (Mac) when I did 'nano \~/.config/kanban-runner.env' then it was empty. In Dell and Karel there was already pushbullet API so I just added in top of that Gemini API key but on Mac I had to add both. Just make sure it is correct location where I added on Mac. 
 
-2. Run uv tool install aider-chat on Karel and the Mac. Dell has no SSH key for either, so I couldn't. On the Mac, check that the launchd config's PATH includes \~/.local/bin.
+2. Run uv tool install aider-chat on Karel and the Mac. --&gt; Do it yourself. Dell has no SSH key for either, so I couldn't. On the Mac, check that the launchd config's PATH includes \~/.local/bin.
 
 \-&gt; Dell has no SSH key? Well - just run 'ssh dell' and go to Dell and add SSH key there then. 
 
