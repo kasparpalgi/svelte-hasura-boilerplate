@@ -36,3 +36,17 @@ Dell self-updates between tasks (never during one), so it picks this up after ru
 **Files changed** — klarity-claude-kit: `runner/src/herdr.js`, `runner/src/run.js`, `runner/test/herdr.test.js` (+2 tests), `runner/package.json`, `.claude-plugin/plugin.json`. Here: this task file and `package.json`.
 **Verification** — runner `npm test` 106/106 pass. No app code changed here.
 **Deviations** — None. Note: each run overwrites `NNN.log`, so only the last run's transcript is kept. The runner journal is the record of earlier runs.
+
+## Follow-up — Karel parked tektok-app 027 after the fix (2026-10-02)
+
+Karel ran `a857607` (restarted on it 16:48) and still parked 027 twice mid-E2E (18:52 → 19:12, 19:13 → 19:18), pane footer
+`1 shell, 1 monitor still running`. The attempt count now worked ("attempt 2"); the wait did not:
+
+- **`done` is ready too.** herdr reports `idle` *or* `done` for a finished turn — `done` until a client has seen the pane,
+  and the runner never focuses its panes. The wait loop checked `idle` only. It now accepts both (`READY` in `herdr.js`),
+  with a test that fails on the old check.
+- **Local commits never restarted the daemon.** `selfUpdate` compared HEAD around its own pull, so a fix committed in the
+  runner's own checkout was never run on that machine. It now compares against the HEAD it first saw (+1 test).
+
+klarity-claude-kit `29bcd8e` (runner 0.20.2, plugin 0.18.2); runner `npm test` 108/108. Karel's checkout was rewound one
+commit so the running (old) daemon fast-forwards and restarts on it between tasks; Mac and Dell pull it themselves.
