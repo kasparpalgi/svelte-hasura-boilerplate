@@ -29,3 +29,16 @@ claude-seo (MIT, no paid services needed) is the best fit, but it is large (26 s
 4. Run `/seo audit <url>` on one site and file its top fixes as Backlog tasks in that repo.
 
 _From Kanban card `e5803e5f-1a82-43ac-88ab-6926910dc1aa`._
+
+## Results
+
+**Summary** — No code change. This repo is a boilerplate, not a landing page, so claude-seo is not enabled here. Step 3 of the plan explicitly needs a human to confirm which candidate repos (`ezyspace-landing`, `tekdok-landing`, `ezysmart-web`, `profitelgid`, `e-stonia`, `kirjanduse-selts`) are public marketing sites. The per-repo edits live in those other repos, so I did not touch them.
+**Files changed** — only this task file (Results appended, renamed to `-BLOCKED.md`).
+**Verification** — N/A, no code changed.
+**Deviations** — None.
+
+**Needed from a human**
+1. Confirm which of the candidate repos are public marketing sites.
+2. Run once per machine: `claude plugin marketplace add AgriciDaniel/claude-seo`.
+3. In each confirmed repo, add to `.claude/settings.json`: `"enabledPlugins": { "claude-seo@agricidaniel-claude-seo": true }` plus the matching `extraKnownMarketplaces` entry.
+4. Run `/seo audit <url>` on one site and file the top fixes as Backlog tasks in that repo.
