@@ -42,3 +42,10 @@ _From Kanban card `e5803e5f-1a82-43ac-88ab-6926910dc1aa`._
 2. Run once per machine: `claude plugin marketplace add AgriciDaniel/claude-seo`.
 3. In each confirmed repo, add to `.claude/settings.json`: `"enabledPlugins": { "claude-seo@agricidaniel-claude-seo": true }` plus the matching `extraKnownMarketplaces` entry.
 4. Run `/seo audit <url>` on one site and file the top fixes as Backlog tasks in that repo.
+
+## Results (update, after human confirmed the sites)
+
+**Summary** — Human confirmed SEO sites: ezyspace-landing, tekdok-landing, profitelgid, e-stonia, kirjanduse-selts. Added `claude-seo` as an opt-in plugin in the klarity runner: the `seo` list in runner `config.json` or `"seo": true` in a board's `github` JSON makes the scaffold enable `claude-seo@agricidaniel-claude-seo` (plus its marketplace) in that repo's `.claude/settings.json`. Marketplace added on this machine; all five repos enabled, committed and pushed. `/seo audit https://e-stonia.co.uk` ran; top fixes filed as Backlog tasks 049–051 in the e-stonia repo.
+**Files changed** — klarity-claude-kit: `runner/src/scaffold.js`, `runner/src/onboard.js`, `runner/test/onboard.test.js`, `runner/README.md`, `plugin.json` (0.18.0). Five repos' `.claude/settings.json`. e-stonia `.claude/todo/049–051`.
+**Verification** — runner `npm test` 104/104 pass; `/seo` ran in e-stonia headless. No app code changed here.
+**Deviations** — The Kanban "create project" UI toggle is not built (that is the Kanban app's code); follow-up filed as 052 (Backlog). Other machines (karel, dell) need `claude plugin marketplace add AgriciDaniel/claude-seo` once; the runner's onboard `--all` applies it.
