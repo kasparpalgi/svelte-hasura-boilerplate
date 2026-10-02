@@ -17,9 +17,8 @@ What you need to do
 2. Run uv tool install aider-chat on Karel and the Mac. --&gt; Do it yourself. 
 3. Dell has no SSH key for either, so I couldn't. On the Mac, check that the launchd config's PATH includes \~/.local/bin.
 
-\-&gt; De
 
-1. Run systemctl --user restart kanban-runner on Dell. Its runner started before the new code landed, and because I committed on Dell itself, its self-update finds nothing to pull. Karel and the Mac will update themselves.
-2. Google's model page lists only paid intro pricing for 3.8 Flash and doesn't confirm a free tier. Check the limits in AI Studio once you have a key.
+1) Run systemctl --user restart kanban-runner on Dell. Its runner started before the new code landed, and because I committed on Dell itself, its self-update finds nothing to pull. Karel and the Mac will update themselves.
+2) Google's model page lists only paid intro pricing for 3.8 Flash and doesn't confirm a free tier. Check the limits in AI Studio once you have a key.
 
 _From Kanban card `e4018bbf-6f2b-4525-b2b0-15944112de44`._
