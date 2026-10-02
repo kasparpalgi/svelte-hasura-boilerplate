@@ -4,6 +4,6 @@
 
 [NEVER REMOVE]
 
-Created task 037 in `ezy-iot` repo
+Created task 037 in `ezy-iot` repo and moved to TODO list but doesn't pick up in Dell I set it to work on
 
 _From Kanban card `b69e6758-aa8c-4b86-af53-9b863bbea333`._
