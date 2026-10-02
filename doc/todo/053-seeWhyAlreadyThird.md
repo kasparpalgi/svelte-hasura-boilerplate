@@ -4,6 +4,6 @@
 
 [NEVER REMOVE]
 
-On tekdok-app
+On tekdok-app repo task 024. Do not stop it but why runner third time already runs. See logs why it s
 
 _From Kanban card `516de0e5-3d09-4f46-a597-676f49c58fae`._
