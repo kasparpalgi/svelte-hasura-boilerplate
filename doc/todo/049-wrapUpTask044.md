@@ -18,6 +18,6 @@ What you need to do
 3. Dell has no SSH key for either, so I couldn't. --&gt; Well - just run 'ssh dell' and go to Dell and add SSH key there then.  
 4. On the Mac, check that the launchd config's PATH includes \~/.local/bin. --&gt; Do it
 5. Run systemctl --user restart kanban-runner on Dell. Its runner started before the new code landed, and because I committed on Dell itself, its self-update finds nothing to pull. Karel and the Mac will update themselves. --&gt; do it on Dell yes
-6. Google's model page lists only paid intro pricing for 3.8 Flash and doesn't confirm a free tier. Check the limits in AI Studio once you have a key. --&gt; I have the key. Check. If no free tier then check what's the best
+6. Google's model page lists only paid intro pricing for 3.8 Flash and doesn't confirm a free tier. Check the limits in AI Studio once you have a key. --&gt; I have the key. Check. If no free tier then check what's the best currently available
 
 _From Kanban card `e4018bbf-6f2b-4525-b2b0-15944112de44`._
