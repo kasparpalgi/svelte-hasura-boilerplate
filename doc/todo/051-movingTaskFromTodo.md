@@ -4,6 +4,6 @@
 
 [NEVER REMOVE]
 
-Remove from it the TODO
+Remove from it the TODO from file name
 
 _From Kanban card `f45a5b62-9bc2-49c5-befe-139a10c3033d`._
