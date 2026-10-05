@@ -19,7 +19,7 @@ _GitHub issue #50 — end the commit subject with `(#50)`._
 **Auto** (`agent_machine` null), so the server wrote `007-cookieConcent-TODO.md` with no
 `> Machine:` line. The runner treated an unaddressed task as belonging only to the
 `machineDefault` runner (the Mac). Dell and Karel skipped it (`--check` showed
-`[→ unaddressed, not this machine]`), so it waited for the Mac, which was busy.
+`[→ unaddressed, not this machine]`), so it waited for the Mac, which had not picked it up.
 
 - **Made it start:** claimed 007 for this machine (Dell/servo). Added `> Machine: dell` to the
   task file (tekdok-landing `d5d96f3`) and set the card's `agent_machine` to `dell`. `--check` now lists it
