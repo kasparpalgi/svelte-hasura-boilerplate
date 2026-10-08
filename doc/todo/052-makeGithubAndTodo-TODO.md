@@ -1,4 +1,5 @@
 > Run with: Opus 5.5 / high
+> Machine: karel
 
 # Make github and todo number match & text in herdr readable
 
