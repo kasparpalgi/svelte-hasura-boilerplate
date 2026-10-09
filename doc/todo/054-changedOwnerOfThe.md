@@ -4,8 +4,6 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+tektok-app was a
 
 _From Kanban card `f4f07c43-579d-404e-9e10-5aeb546fd5e9`._
-
-_GitHub issue #54 — end the commit subject with `(#54)`._
