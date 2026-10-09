@@ -71,3 +71,25 @@ GitHub lists it as **ToDzz**: the login page for client id `Ov23lizjkrYzVgk6B3Oz
 "continue to ToDzz". The Kanban's database shows your GitHub connection was made as
 `kasparpalgi` on 2026-09-17. The picker hint now names ToDzz (`svelte-todo-kanban`
 `6676905`, v0.20.3).
+
+**Follow-up 2: duplicate clones removed (same day).** After the repo was connected, every
+machine turned out to have two clones of it. At 13:33–13:45 the runner's onboarding saw a
+board on `tektok-app/tektok-app`. The existing clones' origin had already been changed to
+`mytekdok/tektok-app`, so `findClone` found no match. Each machine then cloned a second copy
+into `~/Documents/GitHub/tektok-app` and added it to `config.json`. On dell, tasks 187 and
+188 ran in that copy. Meanwhile the real clone got marked `blocked: dirty` because of two
+uncommitted URL edits.
+- Kept `~/Documents/GitHub/customers/tektok-app` on **dell, karel and mac**. It has the
+  `.env` files, the stashes, and the path karel's CI runner reads `TEKDOK_ENV_FILE` from.
+- Dell: committed the two leftover URL edits as `mytekdok/tektok-app@518f6d66` (README
+  badge, `doc/Testing.md`), fast-forwarded the clone, and copied over the ignored
+  `187`/`188` `.log` files. The `dirty` block cleared on the next tick.
+- Checked that each duplicate had no uncommitted work, no stashes and no unpushed commits
+  (mac's `eb0cd2c4` is an ancestor of `main`), and that no process was using it. Then
+  deleted it on all three machines.
+- Removed `tektok-app/tektok-app` from `repos` and `pullRequests` in each machine's runner
+  `config.json`. The board now names `mytekdok/tektok-app`, which is mapped, so nothing gets
+  re-cloned.
+- Left alone: mac's real clone is on branch `todo/189-joinWithoutCamera` with 10 stashes.
+  That's the runner's own state, so I didn't touch it.
+- Root cause filed for later: `055-runnerRenamedRepoReclone.md` (Backlog).
