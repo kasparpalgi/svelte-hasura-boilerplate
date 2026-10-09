@@ -38,8 +38,9 @@ in the new organisation, not a Kanban bug.
 
 **What you need to do (why this is BLOCKED).** This takes one click on GitHub as the
 `mytekdok` owner, which only you can do:
-1. Open https://github.com/settings/applications → **Authorized OAuth Apps**, and pick the
-   Kanban app.
+1. Signed in to GitHub as **`kasparpalgi`** (the account the Kanban is connected with), open
+   https://github.com/settings/connections/applications/Ov23lizjkrYzVgk6B3Oz. That's the
+   Kanban's OAuth App, which GitHub lists as **ToDzz**, not "Kanban".
 2. Under **Organization access**, click **Grant** next to `mytekdok`. You're an org owner,
    so that approves it right away.
    (Or: https://github.com/organizations/mytekdok/settings/oauth_application_policy →
@@ -64,3 +65,9 @@ in the new organisation, not a Kanban bug.
 
 **Deviations** — Fixed in `svelte-todo-kanban`, where the board lives, not in this repo. The
 fix also covers the 100-repo cap I found while looking into this.
+
+**Follow-up (same day).** You couldn't find "the Kanban app" under Authorized OAuth Apps.
+GitHub lists it as **ToDzz**: the login page for client id `Ov23lizjkrYzVgk6B3Oz` reads
+"continue to ToDzz". The Kanban's database shows your GitHub connection was made as
+`kasparpalgi` on 2026-09-17. The picker hint now names ToDzz (`svelte-todo-kanban`
+`6676905`, v0.20.3).
