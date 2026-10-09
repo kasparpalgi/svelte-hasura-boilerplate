@@ -18,3 +18,5 @@ canonical name with `gh api repos/<owner>/<repo> --jq .full_name` (GitHub follow
 and transfers). Then match clones and config keys on that name, and do the same for each
 clone's origin. If both resolve to the same repo, adopt the existing clone and never clone
 again. Add a test with a renamed repo. See task 054 (Follow-up 2) for the cleanup.
+
+_GitHub issue #55 — end the commit subject with `(#55)`._
