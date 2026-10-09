@@ -4,6 +4,6 @@
 
 [NEVER REMOVE]
 
-tektok-app was a
+tektok-app was a private
 
 _From Kanban card `f4f07c43-579d-404e-9e10-5aeb546fd5e9`._
