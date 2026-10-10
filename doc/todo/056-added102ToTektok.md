@@ -4,8 +4,6 @@
 
 [NEVER REMOVE]
 
-_(no description yet)_
+Moved to todo on Dell on board but can't see it started
 
 _From Kanban card `1d330658-29f8-49c7-8200-9fad6f08b130`._
-
-_GitHub issue #56 — end the commit subject with `(#56)`._
