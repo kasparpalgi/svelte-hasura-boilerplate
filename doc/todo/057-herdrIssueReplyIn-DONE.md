@@ -14,3 +14,7 @@ See the todo #052 BLOCKED and maybe now make this text readability working final
 _From Kanban card `c959056c-c5eb-4075-8043-dd11c9b5e091`, moved to the agent list._
 
 _GitHub issue #57 — end the commit subject with `(#57)`._
+
+## Results
+
+The agent finished the run but never renamed the file, so the runner completed it. The tree was clean with nothing left to commit — see the `.log` beside this file for the full session.
