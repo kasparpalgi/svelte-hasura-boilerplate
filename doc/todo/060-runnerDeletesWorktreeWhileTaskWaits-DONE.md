@@ -34,3 +34,13 @@ Fix: before `finishPrRun` treats a non-zero `code` as a finished run, check `pan
 *GitHub issue #60 — end the commit subject with* `(#60)`*.*
 
 _From Kanban card `17f4fbb3-789f-4b62-8677-7defc2e9bbc4`, moved to the agent list._
+
+## Results
+
+**Summary** — Fixed in `kasparpalgi/klarity-claude-kit` commit `7453aa7` (runner 0.23.1). `runInHerdr` now returns `live` on a non-zero exit: `true` when the agent is still blocked, and on a herdr wait error/timeout it is the result of `paneLive(name)` (working or blocked). Right after the run loop, `run.js` checks it. If `code && live`, it logs "still running in its pane, left alone", gives back the attempt (`addTry -1`) and returns — the same as the re-claim guard. It does not ship, park, notify failure or `closeWorktree`. A later tick re-picks the task once the pane has ended, and `openWorktree` reuses the worktree that was left in place.
+
+**Files changed** (klarity-claude-kit) — modified `plugins/dev-kit/runner/src/herdr.js`, `src/run.js`, `test/herdr.test.js`, `package.json` (0.23.0 → 0.23.1). Here: this task file only.
+
+**Verification** — runner `npm test`: 144/144 pass, including 2 new tests: a pane still `working` after the prompt wait times out reports `live: true`; a wait failure with the pane gone reports `live: false`. `node --check src/run.js` is OK. The `run.js` branch has no direct test: `run.js` is the daemon entry and has no test harness.
+
+**Deviations** — The guard is placed before both finishing paths (PR worktree and direct clone), not only before `finishPrRun`, because the direct path would otherwise `git stash` a live session's work. Liveness is decided from `paneLive` instead of parsing herdr's `timeout` error code, because it covers every wait error. A session left alone this way has its usage recorded only on its next run.
