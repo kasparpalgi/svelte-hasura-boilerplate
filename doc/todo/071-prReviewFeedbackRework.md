@@ -24,3 +24,5 @@ them back to the agent.
 - [ ] A "Request changes" review on a `todo/*` PR produces one rework task within a sweep.
 - [ ] The rework session pushes to the same PR branch and replies on each thread.
 - [ ] No rework task for bot-only comments or already-resolved threads.
+
+_GitHub issue #71 — end the commit subject with `(#71)`._
