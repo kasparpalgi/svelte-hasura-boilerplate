@@ -21,3 +21,5 @@ investigation"). Lisa injects past failures into the next prompt as guardrails.
 
 - [ ] Attempt 2's prompt names attempt 1's ending and stash ref; attempt 1's prompt is unchanged.
 - [ ] Runner test covers both prompts.
+
+_GitHub issue #72 — end the commit subject with `(#72)`._
