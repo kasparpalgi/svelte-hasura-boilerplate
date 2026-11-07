@@ -72,6 +72,8 @@ and are fixed:
   - Bare `UTC` and `America/New_York` → the exact moment.
   - An unknown zone → the 5 h fallback.
 - `node src/run.js --check` on dell runs clean. `prettier --check` is clean on the changed files.
+- Mac: it self-updated to `c08ba1c` at 23:28:00 and restarted on it. It still holds the
+  cooldown, now printed with its zone: `⏳ waiting out usage limit until 08/11/2026, 00:10 EET`.
 
 **Deviations**
 - The tier step-down is removed entirely, not just narrowed: none of the wall messages the
