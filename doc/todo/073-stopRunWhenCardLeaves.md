@@ -22,3 +22,5 @@ issue that leaves the active states has its agent stopped. Itervox pauses on the
 
 - [ ] Moving a running card to Backlog stops its agent within one poll, with the work stashed.
 - [ ] Moving it back re-queues it normally.
+
+_GitHub issue #73 — end the commit subject with `(#73)`._
