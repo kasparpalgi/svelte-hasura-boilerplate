@@ -26,3 +26,5 @@ code checkpoint (Review), but nothing in between, and no criteria to check again
 - [ ] `/plan` output has an acceptance-criteria checklist; `/todo` Results address each item.
 - [ ] A `> Plan first` card ends its first run BLOCKED with a plan and no code changes.
 - [ ] Re-queued, it builds the approved plan, taking the review comments into account.
+
+_GitHub issue #70 — end the commit subject with `(#70)`._
