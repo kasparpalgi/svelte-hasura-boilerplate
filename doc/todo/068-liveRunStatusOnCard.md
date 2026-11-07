@@ -27,3 +27,5 @@ Build the cheap version in the runner (`klarity-claude-kit/plugins/dev-kit/runne
 - [ ] A started run shows its status comment on the card within one tick.
 - [ ] Exactly one status comment per run — edited, never re-posted.
 - [ ] Runner tests cover post + edit; the Kanban `cardThread` test covers the new prefix.
+
+_GitHub issue #68 — end the commit subject with `(#68)`._
