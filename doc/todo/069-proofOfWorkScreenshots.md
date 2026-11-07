@@ -22,3 +22,5 @@ the diff. Our Review column gets text only, so every UI card means pulling and r
 - [ ] A UI task's card in Review shows its screenshots as attachments.
 - [ ] The PNGs never reach git (gitignore entry written the way `*.log` is).
 - [ ] A non-UI task behaves exactly as today.
+
+_GitHub issue #69 — end the commit subject with `(#69)`._
