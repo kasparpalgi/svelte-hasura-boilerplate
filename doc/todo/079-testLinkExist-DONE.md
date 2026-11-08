@@ -21,7 +21,7 @@ _GitHub issue #79 — end the commit subject with `(#79)`._
 - **Fix:** after the row is deleted, the store calls a new `POST /api/github/delete-task-file` with the path and the board's repo. The card row is already gone by then, so the client sends these, the same way `delete-issue` does.
   - The endpoint only accepts `doc/todo/NNN-….md` or `.claude/todo/NNN-….md` paths.
   - It uses the user's own GitHub token and deletes in one commit through `commitTree`: `docs(todo): delete … with its card (#N)`.
-- **What gets deleted:** `toDelete()` in `taskdir.ts` matches files by the card's stem. It removes the draft `NNN-slug.md`, the queued `NNN-slug-TODO.md` and its `NNN-slug.md.log`.
+- **What gets deleted:** `toDelete()` in `taskdir.ts` matches files by the card's stem. It removes the draft `NNN-slug.md`, the queued `NNN-slug-TODO.md` and its `NNN-slug.log`.
   - If a `-DONE.md` or `-BLOCKED.md` exists for that stem, nothing is deleted. Those are finished runs whose commits refer to them.
   - Matching by stem also covers a `task_file_path` in the database that is out of date, for example still `-TODO` after the runner renamed the file to `-DONE`.
 - **Running tasks:** deleting a running `-TODO` card makes the #73 watcher stop the run, because the file is gone from origin.
