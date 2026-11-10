@@ -100,6 +100,8 @@ This project is configured for Claude Code (and compatible with other AI agents)
 Every request becomes one markdown file in `doc/todo/` holding the original prompt at the top and
 the outcome at the bottom — that folder is the prompt history. The whole loop (voice card → task
 file → agent run → results back on the board) is described on the site's [`/workflow`](src/routes/workflow/+page.svelte) page.
+The technical how-it-works, and a comparison with the Claude desktop/mobile apps, is in
+[`doc/how-it-works.md`](doc/how-it-works.md).
 
 Two more `dev-kit` skills load automatically rather than being typed: `research-first` (looks up
 docs before writing code against an unfamiliar API) and `cross-review` (pipes the diff to a

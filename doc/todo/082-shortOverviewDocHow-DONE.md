@@ -22,3 +22,47 @@ Write more and compare it toClaude desktop. Write where my system is better (eg.
 _From Kanban card `0df02395-a482-4421-b56b-5a54166b91cc`, moved to the agent list._
 
 _GitHub issue #82 — end the commit subject with `(#82)`._
+
+---
+
+## Plan
+
+1. Read the runner README and source (`klarity-claude-kit/plugins/dev-kit/runner`) so the
+   doc describes what the system actually does, not just the card text.
+2. Write `doc/how-it-works.md` (~100 lines): the pieces, the loop in 8 steps, why the
+   `doc/todo/` history matters, and a fair comparison with the Claude desktop/mobile apps.
+3. Link it from `README.md`.
+4. Verify: `prettier --check` on the changed markdown; no code changed, so no test run.
+
+## Results
+
+**Summary** — Wrote `doc/how-it-works.md`: the pieces table, the loop step by step
+(card → draft file + issue → TODO rename → runner pickup/claim → herdr run →
+phone notifications → Results + DONE/BLOCKED rename → follow-ups), why the numbered
+prompt history matters, and where this setup beats or loses to the Claude desktop/mobile
+apps. Linked from the README.
+
+A few details in the card didn't match the code, so the doc follows the code:
+- The runner is a Node daemon, not a Gemini model. With model **Auto** a cheap **Haiku**
+  call picks the model family. Gemini Flash (via aider) is just one tier you can pick
+  for simple tasks.
+- Machine **Auto** means *whichever runner is free claims it first* (a compare-and-swap
+  on the card's `agent_machine`). Nothing picks a machine by how much usage it has left:
+  the runner can't ask how much is left and only finds out when the CLI hits the wall.
+  If you want usage-aware routing, that's a feature to build.
+- 20 s is this setup's `pollSeconds` (the default is 60).
+
+I also added a short note that running friends' consumer subscriptions for your own work
+may break Anthropic's usage terms, because that's a real difference from the official apps.
+
+**Files changed**
+- created: `doc/how-it-works.md`
+- modified: `README.md` (link), `package.json` (0.19.3 → 0.19.4)
+- renamed: `082-shortOverviewDocHow-TODO.md` → `-DONE.md`
+
+**Verification**
+- `npx prettier --check doc/how-it-works.md` — formatted (per-file).
+- Docs only, no code changed, so `npm run check`/tests were not needed.
+
+**Deviations** — Put the doc in `doc/` as markdown, not on the `/workflow` site page. The
+page is part of the boilerplate every new project inherits, and this comparison is personal.
