@@ -152,9 +152,10 @@ Ways to cut it:
    blocked reason to the Kanban. The machine dropdown shows a dot and greys out a machine
    that hasn't ticked for five minutes. "Why didn't it pick up?" becomes a glance, not a
    task.
-3. **A smoke test for the runner** (follow-up 089). A fake repo plus a fake `claude` that
-   runs one task end to end in `node --test`, so a runner change that breaks pickup fails
-   before it ships to four machines.
+3. **A smoke test for the runner — built in #89.** `runner/test/smoke.test.js` runs one
+   real `run.js --once` tick against a scratch origin, with a fake `claude` that renames
+   the task to `-DONE` and commits. `npm test` checks that it lands on origin, so a
+   runner change that breaks pickup fails before it ships to four machines.
 
 ### A better session UI
 
