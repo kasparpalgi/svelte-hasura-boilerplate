@@ -131,6 +131,12 @@ Ubuntu 24.04 VM with:
 - An idle VM pauses after a few minutes and can be reclaimed. History survives, running
   processes don't.
 - Usage counts against the account that started it, one account per session.
+- `claude --cloud` needs a terminal (it refuses piped output), creates the session in
+  a few seconds and exits. `--model` carries over. A session can push any branch but
+  can't delete one, and it has a GitHub PR tool while its `gh` isn't signed in.
+- In this repo (smoke test #93): `npm ci` passes, and so do the server unit tests.
+  `npm run check` needs a `.env`, and the browser unit tests need Playwright's headless
+  shell. Neither is in the VM yet (follow-up 095).
 
 ### Plumbing, and how to cut it
 
@@ -199,10 +205,17 @@ The task file holds everything a session needs, so any surface can run it:
 
 1. **Board starts, app watches — built in #85.** Remote Control as above. The runner
    keeps the queue, and the Claude app is the window.
-2. **"Cloud" as a machine** (follow-up 086). Add Cloud to the machine dropdown. A runner
-   on your own account sees `> Machine: cloud` and runs `claude --cloud "/todo 82"`. For
-   that to work `/todo` must be in the repo's `.claude/skills/` (plugins don't load in the
-   cloud), and the session pushes a branch, so it ships as a PR, not straight to main.
+2. **"Cloud" as a machine — built in #86.** Pick **Cloud** in the card's machine
+   dropdown and no machine of ours runs the task. The one runner with `"cloud": true`
+   (Karel, on your account) starts it with `claude --cloud` and puts the
+   `claude.ai/code/session_…` link on the card's status line. It doesn't wait for the
+   session, so Karel's own queue keeps moving. Plugins don't load in the cloud, so the
+   session's first message carries the runner's own copy of the `/todo` and `/verify`
+   skills. Nothing has to be copied into repos (a repo copy would shadow dev-kit's
+   `/todo` locally) or uploaded to claude.ai. The session pushes `todo/<stem>`, and once
+   that branch holds the `-DONE` rename the runner opens the PR. A person merges it, and
+   the merge moves the card to Review. Only repos whose checks run without Hasura or the
+   home network should get Cloud cards.
 3. **By hand.** Open the desktop app or `claude` in the repo and type `/todo 82`. This
    works today. Do it while the file is still a draft (`082-slug.md`), so the runner
    doesn't pick up the same task.
