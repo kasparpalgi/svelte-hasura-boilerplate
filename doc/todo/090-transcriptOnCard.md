@@ -15,3 +15,5 @@ minute or so, append Claude's last few text messages and tool names (no tool out
 the live status comment (`status.js`), capped at ~15 lines.
 
 Acceptance: a running card on Dell shows what the agent is doing, readable on a phone.
+
+_GitHub issue #90 — end the commit subject with `(#90)`._
