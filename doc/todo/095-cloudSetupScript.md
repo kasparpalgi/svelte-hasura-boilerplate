@@ -30,3 +30,5 @@ green in its Results.
 Also consider: a cloud session that never pushes leaves its card on "▶ Running on cloud"
 for good. A notice after `taskMinutes` with the session link would close that gap
 (`klarity-claude-kit` → `runner/src/cloudTick.js`).
+
+_GitHub issue #95 — end the commit subject with `(#95)`._
