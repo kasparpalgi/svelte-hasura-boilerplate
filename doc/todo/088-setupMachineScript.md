@@ -16,3 +16,5 @@ second time changes nothing. Linux and macOS; WSL counts as Linux.
 
 Acceptance: on a machine that is already set up, the script reports every step as
 already done.
+
+_GitHub issue #88 — end the commit subject with `(#88)`._
