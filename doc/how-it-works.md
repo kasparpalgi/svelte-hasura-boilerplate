@@ -180,9 +180,13 @@ The runner already handles a lot: it stashes dirt, self-updates, pre-answers the
 dialog, claims cards with compare-and-swap and skips a task after two failed attempts.
 What's left:
 
-1. **Always use a worktree** (follow-up 091). Pull-request repos already run each task in
-   its own worktree. Doing that everywhere means the main checkout never gets dirty, which
-   removes the dirty-tree class of stalls.
+1. **Always use a worktree — built in #91.** Every task now runs in
+   `~/.kanban-runner/worktrees/<repo>/<stem>`, not only in pull-request repos. A
+   push-to-main repo's task runs on a `run/<stem>` branch that tracks `origin/main`, and
+   the runner lands its commits on `main` from there. No agent touches the main checkout
+   any more, so a run that ends dirty no longer blocks the next task. Each worktree is
+   removed when its run ends, and a sweep every tick clears any that were left behind,
+   along with their branches and trust entries.
 2. **Refuse to run when stale** (part of 087). A runner whose version is behind the newest
    one on the board skips work and says so, instead of running old code.
 3. The setup script and health dot from [Plumbing](#plumbing-and-how-to-cut-it) cover
