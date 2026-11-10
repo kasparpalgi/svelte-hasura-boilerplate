@@ -15,3 +15,5 @@ the main checkout is never touched by an agent. Keep the guards in the README's 
 table true, or update them.
 
 Acceptance: a run that leaves its tree dirty no longer blocks the next task in that repo.
+
+_GitHub issue #91 — end the commit subject with `(#91)`._
