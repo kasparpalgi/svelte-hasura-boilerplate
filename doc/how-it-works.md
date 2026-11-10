@@ -41,6 +41,8 @@ Claude desktop / mobile apps. Written in task 082 (Nov 2026).
    question it sends **"Runner ⏸ needs you"** to Pushbullet (phone beeps, watch
    vibrates); answer in the relay PWA with one tap on a suggested option, or dictate.
    Hitting the usage limit parks that machine until the reset time the CLI reports.
+   On a machine with `remoteControl` on (Karel, since #85) the same session also opens in
+   claude.ai/code and the Claude app, and the card's status line links to it.
 7. **Finish.** `/todo` appends a plan, then `## Results` (summary, files changed,
    verification, deviations) under the untouched original prompt, renames the file to
    `-DONE.md` or `-BLOCKED.md`, commits with `(#NNN)` and pushes. The runner moves the
@@ -86,7 +88,8 @@ from the phone, push notifications, scheduled routines, and the mobile app.
   chat UI; a herdr pane is a terminal on a small screen (see
   [Better session UI](#a-better-session-ui)).
 - **Native notifications and Remote Control** work out of the box and are better
-  integrated than Pushbullet + a relay PWA.
+  integrated than Pushbullet + a relay PWA. Since #85 the runner uses Remote Control
+  too, but only on machines logged in to your own account.
 - **Cloud sessions** run with the laptop closed and don't need a machine of your own.
 - **Fewer moving parts to fail.** Here a dirty tree, a stale runner version, a first-run
   dialog or a git race can stall a machine; the apps simply don't have those failure
@@ -141,28 +144,33 @@ cost (021–027), the machine picker, live status, screenshots and review checkp
 
 Ways to cut it:
 
-1. **One setup script per machine.** Every new machine was its own task (Karel, Dell,
-   Windows, Mac). An idempotent `runner/scripts/setup-machine.sh` that installs the plugin,
-   herdr, the service units, trust and settings, and ends with `--check`, would make that
-   a single command.
-2. **Health on the board.** Each runner reports version, last tick and blocked reason to
-   the Kanban. The machine dropdown shows a dot and greys out a machine that hasn't
-   ticked for five minutes. "Why didn't it pick up?" becomes a glance, not a task.
-3. **A smoke test for the runner.** A fake repo plus a fake `claude` that runs one task
-   end to end in `node --test`, so a runner change that breaks pickup fails before it
-   ships to four machines.
+1. **One setup script per machine** (follow-up 088). Every new machine was its own task
+   (Karel, Dell, Windows, Mac). An idempotent `runner/scripts/setup-machine.sh` that
+   installs the plugin, herdr, the service units, trust and settings, and ends with
+   `--check`, would make that a single command.
+2. **Health on the board** (follow-up 087). Each runner reports version, last tick and
+   blocked reason to the Kanban. The machine dropdown shows a dot and greys out a machine
+   that hasn't ticked for five minutes. "Why didn't it pick up?" becomes a glance, not a
+   task.
+3. **A smoke test for the runner** (follow-up 089). A fake repo plus a fake `claude` that
+   runs one task end to end in `node --test`, so a runner change that breaks pickup fails
+   before it ships to four machines.
 
 ### A better session UI
 
-1. **Remote Control from the runner.** Start the pane with
-   `claude --remote-control "082 shortOverviewDocHow"`. The session then also shows in
-   claude.ai/code and the Claude app with diffs and native push notifications. herdr stays
-   as the fallback. The catch is that a session only shows in the account it runs under.
-   The Mac's sessions land in your app; Karel, Dell and Windows sessions land in your
-   friends' accounts.
-2. **A readable transcript on the card.** The runner already reads the session JSONL for
-   cost. It could also write Claude's messages and the tool names into the card's live
-   status comment. That works for all four accounts and reads fine on a phone.
+1. **Remote Control from the runner — built in #85.** With `"remoteControl": true` in a
+   runner's `config.json`, the pane starts as
+   `claude --remote-control svelte-hasura-boilerplate-085-see082`. The session also shows
+   in claude.ai/code and the Claude app (Code tab) with diffs and a chat UI, and the
+   card's status line ends with its `claude.ai/code/session_…` link. herdr stays as the
+   fallback. A session only shows in the account its machine is logged in to, so it is
+   off by default. It's on for Karel, which turned out to be on your own account. Check
+   the others with `claude auth status` before turning it on there. For native push, run
+   `/config` once on that machine and turn on _Push when actions required_.
+2. **A readable transcript on the card** (follow-up 090). The runner already reads the
+   session JSONL for cost. It could also write Claude's messages and the tool names into
+   the card's live status comment. That covers the machines on friends' accounts, where
+   Remote Control is off, and reads fine on a phone.
 3. **Phone-width herdr.** The garbled text happens when a wide pane is squeezed onto a
    phone. A pane width that matches the phone, or a reflowed view, fixes it (see 081).
 
@@ -172,11 +180,11 @@ The runner already handles a lot: it stashes dirt, self-updates, pre-answers the
 dialog, claims cards with compare-and-swap and skips a task after two failed attempts.
 What's left:
 
-1. **Always use a worktree.** Pull-request repos already run each task in its own
-   worktree. Doing that everywhere means the main checkout never gets dirty, which removes
-   the dirty-tree class of stalls.
-2. **Refuse to run when stale.** A runner whose version is behind the newest one on the
-   board skips work and says so, instead of running old code.
+1. **Always use a worktree** (follow-up 091). Pull-request repos already run each task in
+   its own worktree. Doing that everywhere means the main checkout never gets dirty, which
+   removes the dirty-tree class of stalls.
+2. **Refuse to run when stale** (part of 087). A runner whose version is behind the newest
+   one on the board skips work and says so, instead of running old code.
 3. The setup script and health dot from [Plumbing](#plumbing-and-how-to-cut-it) cover
    first-run dialogs and silent stalls.
 
@@ -184,12 +192,12 @@ What's left:
 
 The task file holds everything a session needs, so any surface can run it:
 
-1. **Board starts, app watches.** Remote Control as above. The runner keeps the queue,
-   and the Claude app is the window. This only needs a flag in the runner.
-2. **"Cloud" as a machine.** Add Cloud to the machine dropdown. The Mac runner sees
-   `> Machine: cloud` and runs `claude --cloud "/todo 82"` on your account. For that to
-   work `/todo` must be in the repo's `.claude/skills/` (plugins don't load in the cloud),
-   and the session pushes a branch, so it ships as a PR, not straight to main.
+1. **Board starts, app watches — built in #85.** Remote Control as above. The runner
+   keeps the queue, and the Claude app is the window.
+2. **"Cloud" as a machine** (follow-up 086). Add Cloud to the machine dropdown. A runner
+   on your own account sees `> Machine: cloud` and runs `claude --cloud "/todo 82"`. For
+   that to work `/todo` must be in the repo's `.claude/skills/` (plugins don't load in the
+   cloud), and the session pushes a branch, so it ships as a PR, not straight to main.
 3. **By hand.** Open the desktop app or `claude` in the repo and type `/todo 82`. This
    works today. Do it while the file is still a draft (`082-slug.md`), so the runner
    doesn't pick up the same task.
