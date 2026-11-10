@@ -23,3 +23,5 @@ What has to be true first, per `doc/how-it-works.md` → _Cloud session limits_:
 
 Acceptance: a test card set to Cloud on this repo ends as a PR with a `-DONE.md`, and
 the card links the cloud session.
+
+_GitHub issue #86 — end the commit subject with `(#86)`._
