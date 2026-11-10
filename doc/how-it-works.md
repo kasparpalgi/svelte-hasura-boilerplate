@@ -75,20 +75,22 @@ from the phone, push notifications, scheduled routines, and the mobile app.
 - **Per-task model / effort / machine**, chosen from the card or picked automatically,
   plus a free Gemini tier for simple work.
 - **Your own machines.** Real local env, databases, secrets and long-running services,
-  and no cloud sandbox limits.
+  without the cloud VM's limits (see [Cloud session limits](#cloud-session-limits)).
 
 ### Where the official apps win
 
 - **No setup or upkeep.** No daemons, systemd/launchd units, herdr servers, Pushbullet
-  tokens or per-machine plugin installs. Most of the 80+ task files here are plumbing.
+  tokens or per-machine plugin installs. About half of the ~90 task files here are
+  plumbing (see [Plumbing](#plumbing-and-how-to-cut-it)).
 - **Better UI for the session.** Diffs, file trees, artifacts, images and a proper
-  chat UI; a herdr pane is a terminal on a small screen.
+  chat UI; a herdr pane is a terminal on a small screen (see
+  [Better session UI](#a-better-session-ui)).
 - **Native notifications and Remote Control** work out of the box and are better
   integrated than Pushbullet + a relay PWA.
 - **Cloud sessions** run with the laptop closed and don't need a machine of your own.
 - **Fewer moving parts to fail.** Here a dirty tree, a stale runner version, a first-run
   dialog or a git race can stall a machine; the apps simply don't have those failure
-  modes.
+  modes (see [Fewer stalls](#fewer-stalls)).
 - **Built-in extras** — code review, scheduled routines, browser and computer use,
   connectors — come for free and keep improving without me maintaining them.
 - **Within the terms by default.** Consumer plans are meant for the account holder, so
@@ -100,4 +102,96 @@ from the phone, push notifications, scheduled routines, and the mobile app.
 The apps are better for working _with_ Claude in one session. This system is better for
 _running a queue_ of tasks across several accounts and keeping a durable history of
 them. They can be combined: the board and `doc/todo/` stay the source of truth, and the
-desktop or mobile app is just another way to open a session.
+desktop or mobile app is just another way to open a session (see
+[Combining the two](#combining-the-two)).
+
+## Follow-up questions
+
+### Cloud session limits
+
+From the Claude Code docs (code.claude.com, November 2026). A cloud session is a fresh
+Ubuntu 24.04 VM with:
+
+- 4 vCPUs, 16 GB RAM and 30 GB disk. Heavy builds or memory-hungry tests can be stopped.
+- Docker, PostgreSQL 16 and Redis installed but not running. A setup script that runs in
+  under about five minutes is cached as a disk snapshot, but running services are not.
+  Hasura has to start again in every session.
+- Network set to "Trusted" by default: package registries, GitHub and cloud SDKs only.
+  You can change it to None, Full or a custom list. The VM can't reach Karel, Dell, a
+  local Hasura or anything else on the home network.
+- GitHub only for cloning, pushing and PRs.
+- Only what's committed. User-level plugins (so `dev-kit` and `/todo`), `~/.claude/CLAUDE.md`,
+  user MCP servers and the memory directory don't come along. Skills have to live in the
+  repo's `.claude/` or be enabled on claude.ai.
+- Secrets go in as "network secrets" attached to requests by a proxy. Plain environment
+  variables are readable by anyone who uses the environment.
+- An idle VM pauses after a few minutes and can be reclaimed. History survives, running
+  processes don't.
+- Usage counts against the account that started it, one account per session.
+
+### Plumbing, and how to cut it
+
+"Plumbing" means tasks that only keep the pipeline running and change no product. In this
+repo that's things like 005 dirty working tree, 016 doesn't start, 026 didn't mark done,
+039 Karel after reboot, 040/049/050 didn't pick the task, 041 card not moved to Review,
+046 false done, 055 renamed repo, 060 worktree deleted, 063/064 not starting and 081
+update herdr. Machine setup adds 029, 043–045, 058, 061 and 066. Real features like usage
+cost (021–027), the machine picker, live status, screenshots and review checkpoints
+(068–073) are the other half.
+
+Ways to cut it:
+
+1. **One setup script per machine.** Every new machine was its own task (Karel, Dell,
+   Windows, Mac). An idempotent `runner/scripts/setup-machine.sh` that installs the plugin,
+   herdr, the service units, trust and settings, and ends with `--check`, would make that
+   a single command.
+2. **Health on the board.** Each runner reports version, last tick and blocked reason to
+   the Kanban. The machine dropdown shows a dot and greys out a machine that hasn't
+   ticked for five minutes. "Why didn't it pick up?" becomes a glance, not a task.
+3. **A smoke test for the runner.** A fake repo plus a fake `claude` that runs one task
+   end to end in `node --test`, so a runner change that breaks pickup fails before it
+   ships to four machines.
+
+### A better session UI
+
+1. **Remote Control from the runner.** Start the pane with
+   `claude --remote-control "082 shortOverviewDocHow"`. The session then also shows in
+   claude.ai/code and the Claude app with diffs and native push notifications. herdr stays
+   as the fallback. The catch is that a session only shows in the account it runs under.
+   The Mac's sessions land in your app; Karel, Dell and Windows sessions land in your
+   friends' accounts.
+2. **A readable transcript on the card.** The runner already reads the session JSONL for
+   cost. It could also write Claude's messages and the tool names into the card's live
+   status comment. That works for all four accounts and reads fine on a phone.
+3. **Phone-width herdr.** The garbled text happens when a wide pane is squeezed onto a
+   phone. A pane width that matches the phone, or a reflowed view, fixes it (see 081).
+
+### Fewer stalls
+
+The runner already handles a lot: it stashes dirt, self-updates, pre-answers the trust
+dialog, claims cards with compare-and-swap and skips a task after two failed attempts.
+What's left:
+
+1. **Always use a worktree.** Pull-request repos already run each task in its own
+   worktree. Doing that everywhere means the main checkout never gets dirty, which removes
+   the dirty-tree class of stalls.
+2. **Refuse to run when stale.** A runner whose version is behind the newest one on the
+   board skips work and says so, instead of running old code.
+3. The setup script and health dot from [Plumbing](#plumbing-and-how-to-cut-it) cover
+   first-run dialogs and silent stalls.
+
+### Combining the two
+
+The task file holds everything a session needs, so any surface can run it:
+
+1. **Board starts, app watches.** Remote Control as above. The runner keeps the queue,
+   and the Claude app is the window. This only needs a flag in the runner.
+2. **"Cloud" as a machine.** Add Cloud to the machine dropdown. The Mac runner sees
+   `> Machine: cloud` and runs `claude --cloud "/todo 82"` on your account. For that to
+   work `/todo` must be in the repo's `.claude/skills/` (plugins don't load in the cloud),
+   and the session pushes a branch, so it ships as a PR, not straight to main.
+3. **By hand.** Open the desktop app or `claude` in the repo and type `/todo 82`. This
+   works today. Do it while the file is still a draft (`082-slug.md`), so the runner
+   doesn't pick up the same task.
+4. **The other direction.** In any app session, `/plan <request>` writes a new task file,
+   so an idea from the phone joins the queue.
