@@ -15,3 +15,5 @@ that renames the file to `-DONE.md` and commits, runs `run.js --once` against a 
 `config.json`, and asserts the file is `-DONE.md` on origin. No herdr, no Kanban.
 
 Acceptance: `npm test` runs it in under 10 s, and breaking `listPending` fails it.
+
+_GitHub issue #89 — end the commit subject with `(#89)`._
