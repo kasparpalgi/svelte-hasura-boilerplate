@@ -20,3 +20,5 @@ Follow-up from #85. Original request: "see where claude native apps win and inte
 
 Needs a small Hasura table + permissions (`svelte-todo-kanban`) and a write in the runner.
 Acceptance: stopping one runner turns its dot grey within 5 minutes.
+
+_GitHub issue #87 — end the commit subject with `(#87)`._
