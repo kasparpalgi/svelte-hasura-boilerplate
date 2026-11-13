@@ -1,5 +1,4 @@
 > Run with: Opus 5 / high
-> Machine: mac
 
 # 31 fix
 
