@@ -1,5 +1,5 @@
 > Run with: Opus 5 / high
-> Machine: karel
+> Machine: karel (the stuck run's log is here)
 
 # Unstick task 038
 
